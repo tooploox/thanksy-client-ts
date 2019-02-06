@@ -1,5 +1,6 @@
 import { isString, isArray, isNumber } from "./utils/converter"
 import * as moment from "moment"
+
 export const Text = (caption: string): TextChunk => ({ type: "text", caption })
 export const Nickname = (caption: string): TextChunk => ({ type: "nickname", caption })
 export const Emoji = (url: string | null, caption: string): TextChunk => ({ type: "emoji", caption, url })
@@ -26,8 +27,6 @@ export const parseText = (text: string, acc: TextChunk[] = []): TextChunk[] => {
     return [...acc, Text(text)]
 }
 
-// TODO: real conversion here - check each field and its type
-// TODO: user converter - use that one for receivers and giver
 // TODO: get url on text parse result using twemoji.parse's callback
 export const Err = <T>(error: T): Err<T> => ({ type: "Err", error })
 export const Ok = <T>(value: T): Ok<T> => ({ type: "Ok", value })

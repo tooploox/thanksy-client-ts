@@ -1,20 +1,4 @@
 import * as React from "react"
-// import { EmojiText } from "./EmojiText"
-
-declare var require: any
-const emojilib = require("emojilib")
-const twemoji = require("twemoji").default
-
-const replaceEmoji = (word: string) => {
-    const emoji = emojilib.lib[`${word.replace(/:/g, "")}`]
-    return emoji ? emoji.char : word
-}
-
-// const parseCb = (icon: string) => console.log(`https://twemoji.maxcdn.com/svg/${icon}.svg`)
-// twemoji.parse(replaceEmoji(":smile:"), { callback: parseCb })
-
-const parseCb2 = (icon: string) => console.log(`foo https://twemoji.maxcdn.com/svg/${icon}.svg`)
-twemoji.parse(replaceEmoji("🤑"), { callback: parseCb2 })
 
 const Chunk: React.SFC<{ value: TextChunk }> = ({ value }) => {
     if (value.type === "nickname") return <b>{value.caption}</b>
