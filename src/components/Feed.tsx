@@ -12,7 +12,7 @@ export const Feed: React.SFC<{ thanks: Thx[] }> = ({ thanks }) => {
                             <img className="avatar" src={thx.giver.avatar_url} alt={thx.giver.real_name} />
                             <div>
                                 <div className="giverName">{thx.giver.real_name}</div>
-                                <div className="time">{thx.time}</div>
+                                <div className="time">{thx.createdAt}</div>
                             </div>
                         </div>
                         <div className="thanksBox">

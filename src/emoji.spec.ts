@@ -1,102 +1,56 @@
-import { parseText } from "./emoji"
+import { parseText, Text, Emoji, Nickname } from "./emoji"
 
 describe("Text parser", () => {
+    it("Emoji constructor", () => {
+        expect(Emoji("caption")).toEqual({ type: "emoji", caption: "caption", url: "" })
+        expect(Emoji("caption", "url")).toEqual({ type: "emoji", caption: "caption", url: "url" })
+    })
+
+    it("Text constructor", () => expect(Text("caption")).toEqual({ type: "text", caption: "caption" }))
+
+    it("Nickname constructor", () => expect(Nickname("@caption")).toEqual({ type: "nickname", caption: "@caption" }))
+
     describe(":emoji:", () => {
         it("Parse emoji", () => {
-            expect(parseText(":foo:")).toEqual([{ type: "emoji", caption: ":foo:", url: "url" }])
-            expect(parseText(":foo-:")).toEqual([{ type: "emoji", caption: ":foo-:", url: "url" }])
-            expect(parseText(":+1-2:")).toEqual([{ type: "emoji", caption: ":+1-2:", url: "url" }])
+            expect(parseText(":foo:")).toEqual([Emoji(":foo:")])
+            expect(parseText(":foo-:")).toEqual([Emoji(":foo-:")])
+            expect(parseText(":+1-2:")).toEqual([Emoji(":+1-2:")])
         })
-        it("Parse text and emoji", () => {
-            expect(parseText("foo :foo:")).toEqual([
-                { type: "text", caption: "foo " },
-                { type: "emoji", caption: ":foo:", url: "url" }
-            ])
-        })
-        it("Parse emoji and emoji", () => {
-            expect(parseText(":foo::bar:")).toEqual([
-                { type: "emoji", caption: ":foo:", url: "url" },
-                { type: "emoji", caption: ":bar:", url: "url" }
-            ])
-        })
-        it("Parse emoji text and emoji", () => {
-            expect(parseText(":foo:text:bar:")).toEqual([
-                { type: "emoji", caption: ":foo:", url: "url" },
-                { type: "text", caption: "text" },
-                { type: "emoji", caption: ":bar:", url: "url" }
-            ])
-        })
-        it("Parse :: and emoji", () => {
-            expect(parseText(":::foo:")).toEqual([
-                { type: "text", caption: "::" },
-                { type: "emoji", caption: ":foo:", url: "url" }
-            ])
-        })
+        it("Parse text and emoji", () => expect(parseText("foo :foo:")).toEqual([Text("foo "), Emoji(":foo:")]))
+        it("Parse emoji and emoji", () => expect(parseText(":foo::bar:")).toEqual([Emoji(":foo:"), Emoji(":bar:")]))
+        it("Parse emoji text and emoji", () =>
+            expect(parseText(":foo:text:bar:")).toEqual([Emoji(":foo:"), Text("text"), Emoji(":bar:")]))
+        it("Parse :: and emoji", () => expect(parseText(":::foo:")).toEqual([Text("::"), Emoji(":foo:")]))
     })
 
     describe("@nickname", () => {
-        it("Parse nickname", () => {
-            expect(parseText("@nick.name")).toEqual([{ type: "nickname", caption: "@nick.name" }])
-        })
-        it("Parse text and nickname", () => {
-            expect(parseText("foo @nick")).toEqual([
-                { type: "text", caption: "foo " },
-                { type: "nickname", caption: "@nick" }
-            ])
-        })
-        it("Parse nickname and nickname", () => {
-            expect(parseText("@foo@bar")).toEqual([
-                { type: "nickname", caption: "@foo" },
-                { type: "nickname", caption: "@bar" }
-            ])
-        })
-        it("Parse text and nick and text", () => {
-            expect(parseText("@@foo:")).toEqual([
-                { type: "text", caption: "@" },
-                { type: "nickname", caption: "@foo" },
-                { type: "text", caption: ":" }
-            ])
-        })
+        it("Parse nickname", () => expect(parseText("@nick.name")).toEqual([Nickname("@nick.name")]))
+        it("Parse text and nickname", () => expect(parseText("foo @nick")).toEqual([Text("foo "), Nickname("@nick")]))
+        it("Parse nickname and nickname", () =>
+            expect(parseText("@foo@bar")).toEqual([Nickname("@foo"), Nickname("@bar")]))
+        it("Parse text and nick and text", () =>
+            expect(parseText("@@foo:")).toEqual([Text("@"), Nickname("@foo"), Text(":")]))
     })
 
     describe("@nickname and :emoji:", () => {
-        it("parses @nick and :emoji:", () => {
-            expect(parseText("@nick:smile:")).toEqual([
-                { type: "nickname", caption: "@nick" },
-                { type: "emoji", caption: ":smile:", url: "url" }
-            ])
-        })
-        it("parses @nick and :emoji: @nick", () => {
-            expect(parseText("@nick:smile:@nick")).toEqual([
-                { type: "nickname", caption: "@nick" },
-                { type: "emoji", caption: ":smile:", url: "url" },
-                { type: "nickname", caption: "@nick" }
-            ])
-        })
-        it("parses :emoji: and @nick", () => {
-            expect(parseText(":smile:@nick")).toEqual([
-                { type: "emoji", caption: ":smile:", url: "url" },
-                { type: "nickname", caption: "@nick" }
-            ])
-        })
+        it("parses @nick and :emoji:", () =>
+            expect(parseText("@nick:smile:")).toEqual([Nickname("@nick"), Emoji(":smile:")]))
+        it("parses @nick and :emoji: @nick", () =>
+            expect(parseText("@nick:smile:@nick")).toEqual([Nickname("@nick"), Emoji(":smile:"), Nickname("@nick")]))
+        it("parses :emoji: and @nick", () =>
+            expect(parseText(":smile:@nick")).toEqual([Emoji(":smile:"), Nickname("@nick")]))
 
-        it("parses :emoji: and @nick", () => {
-            expect(parseText(":smile:@nick:smile:")).toEqual([
-                { type: "emoji", caption: ":smile:", url: "url" },
-                { type: "nickname", caption: "@nick" },
-                { type: "emoji", caption: ":smile:", url: "url" }
-            ])
-        })
+        it("parses :emoji: and @nick", () =>
+            expect(parseText(":smile:@nick:smile:")).toEqual([Emoji(":smile:"), Nickname("@nick"), Emoji(":smile:")]))
     })
 
-    it("parse complicated case", () => {
+    it("parse complicated case", () =>
         expect(parseText(":@foo@bar:smile::smile:how are you?:")).toEqual([
-            { type: "text", caption: ":" },
-            { type: "nickname", caption: "@foo" },
-            { type: "nickname", caption: "@bar" },
-            { type: "emoji", caption: ":smile:", url: "url" },
-            { type: "emoji", caption: ":smile:", url: "url" },
-            { type: "text", caption: "how are you?:" }
-        ])
-    })
+            Text(":"),
+            Nickname("@foo"),
+            Nickname("@bar"),
+            Emoji(":smile:"),
+            Emoji(":smile:"),
+            Text("how are you?:")
+        ]))
 })

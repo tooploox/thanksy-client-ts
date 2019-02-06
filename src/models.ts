@@ -1,6 +1,6 @@
-import * as moment from "moment"
+import { DateTime } from "luxon"
 import { isString, isArray, isNumber } from "./utils/converter"
-import { parseText, replaceUtf8Emoji } from "./emoji"
+import { parseText } from "./emoji"
 
 export const Err = <T>(error: T): Err<T> => ({ type: "Err", error })
 export const Ok = <T>(value: T): Ok<T> => ({ type: "Ok", value })
@@ -30,17 +30,18 @@ export const validateThx = (data: any): Result<Thx, string> => {
     )
         return Err("Invalid number " + JSON.stringify(t))
     if (!isString(t.text) || !isString(t.created_at)) return Err("Invalid string " + JSON.stringify(t))
-
+    const date = DateTime.fromISO(t.created_at)
+    const createdAt = `${date.toRelativeCalendar()} at ${date.toLocaleString(DateTime.TIME_SIMPLE)}`
     const value: Thx = {
         receivers: maybeReceivers.map((v: Ok<User>) => v.value),
         giver: giver.value,
-        chunks: parseText(replaceUtf8Emoji(t.text)),
+        chunks: parseText(t.text),
         id: t.id,
         clapCount: t.clap_count,
         confettiCount: t.confetti_count,
         wowCount: t.wow_count,
         loveCount: t.love_count,
-        time: moment(t.created_at).calendar()
+        createdAt
     }
     return Ok(value)
 }

@@ -1,5 +1,6 @@
-import { validateUser, validateThx } from "./models"
-import { userFixture, thxFixture } from "../test/fixtures"
+import { validateUser, validateThx, validateThxList } from "./models"
+import { Nickname, Text, Emoji } from "./emoji"
+import { userFixture, serverThxFixture } from "../test/fixtures"
 
 describe("models", () => {
     describe("User", () => {
@@ -9,9 +10,9 @@ describe("models", () => {
             expect(validateUser({ id: "1" }).type).toEqual("Err")
         })
         it("returns converted user when valid data is given", () => {
-            const u = userFixture()
-            const expectedResult = { type: "Ok", value: u }
-            expect(validateUser(u)).toEqual(expectedResult)
+            const value = userFixture()
+            const expectedResult = { type: "Ok", value }
+            expect(validateUser(value)).toEqual(expectedResult)
         })
     })
 
@@ -23,7 +24,7 @@ describe("models", () => {
         })
 
         it("gives converted thx numeric values", () => {
-            const t = thxFixture({ id: 0, love_count: 1, confetti_count: 2, clap_count: 3, wow_count: 4 })
+            const t = serverThxFixture({ id: 0, love_count: 1, confetti_count: 2, clap_count: 3, wow_count: 4 })
             const result: Ok<Thx> = validateThx(t) as any
             expect(result.type).toEqual("Ok")
             expect(result.value.id).toEqual(0)
@@ -35,7 +36,7 @@ describe("models", () => {
 
         it("gives converted giver", () => {
             const giver = userFixture()
-            const t = thxFixture({ giver })
+            const t = serverThxFixture({ giver })
             const result: Ok<Thx> = validateThx(t) as any
             expect(result.type).toEqual("Ok")
             expect(result.value.giver).toEqual(giver)
@@ -43,41 +44,36 @@ describe("models", () => {
 
         it("gives converted receivers", () => {
             const receivers = [userFixture({ id: "1" }), userFixture({ id: "2" })]
-            const t = thxFixture({ receivers })
+            const t = serverThxFixture({ receivers })
             const result: Ok<Thx> = validateThx(t) as any
             expect(result.type).toEqual("Ok")
             expect(result.value.receivers).toEqual(receivers)
         })
 
         it("gives converted time", () => {
-            const t = thxFixture({ created_at: "2019-02-01T10:08:53.282Z" })
+            const t = serverThxFixture({ created_at: "2019-02-01T10:08:53.282Z" })
             const result: Ok<Thx> = validateThx(t) as any
             expect(result.type).toEqual("Ok")
-            expect(result.value.time).toMatch(/.*08 AM/)
+            expect(result.value.createdAt).toMatch(/.*08 AM/)
         })
 
         it("gives parsed text", () => {
-            const t = thxFixture({ text: "@user love to work with @user2 :joy:" })
+            const t = serverThxFixture({ text: "@user loves @user2 :joy:" })
             const result: Ok<Thx> = validateThx(t) as any
-            const chunks: TextChunk[] = [
-                {
-                    type: "nickname",
-                    caption: "@user"
-                },
-                {
-                    type: "text",
-                    caption: " love to work with "
-                },
-                { caption: "@user2", type: "nickname" },
-                { caption: " ", type: "text" },
-                {
-                    caption: ":joy:",
-                    type: "emoji",
-                    url: "url"
-                }
-            ]
+            const chunks = [Nickname("@user"), Text(" loves "), Nickname("@user2"), Text(" "), Emoji(":joy:")]
             expect(result.type).toEqual("Ok")
             expect(result.value.chunks).toEqual(chunks)
+        })
+    })
+
+    describe("Thx List", () => {
+        it("gives parsed array", () => {
+            const t1 = serverThxFixture({ id: 1 })
+            const t2 = serverThxFixture({ id: 2 })
+            const current: Ok<Thx[]> = validateThxList([t1, t2]) as any
+            expect(current.type).toEqual("Ok")
+            expect(current.value[0].id).toEqual(1)
+            expect(current.value[1].id).toEqual(2)
         })
     })
 })

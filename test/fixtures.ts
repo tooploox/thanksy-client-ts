@@ -8,7 +8,7 @@ export const userFixture = fixtureFactory<User>({
     avatar_url: "https://media.cargocollective.com/1/0/21154/headerimg/avatar_animation_twitter5.png"
 })
 
-export const thxFixture = fixtureFactory<ServerThx>({
+export const serverThxFixture = fixtureFactory<ServerThx>({
     giver: userFixture({ name: "giver" }),
     receivers: [userFixture({ name: "receiver 1" })],
     id: 0,

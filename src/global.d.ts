@@ -54,7 +54,7 @@ type Thx = {
     receivers: User[]
     giver: User
     id: number
-    time: string
+    createdAt: string
     loveCount: number
     confettiCount: number
     clapCount: number
