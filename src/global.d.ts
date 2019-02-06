@@ -25,27 +25,40 @@ interface KV<K, V> {
 type F0<RT = void> = () => RT
 type F1<T, RT = void> = (arg: T) => RT
 type F2<T, T2, RT = void> = (arg1: T, arg2: T2) => RT
-type Maybe<T> = { type: "some"; value: T } | { type: "nothing" }
+type Nothing = { type: "nothing" }
+type Maybe<T> = { type: "some"; value: T } | Nothing
+type Ok<T> = { type: "Ok"; value: T }
+type Err<T> = { type: "Err"; error: T }
+type Result<Value, Error> = Ok<Value> | Err<Error>
+
 type User = {
     real_name: string
     avatar_url: string
     name: string
     id: string
 }
-
-type ThxEntry = {
+type ServerThx = {
     receivers: User[]
     giver: User
-
-    id: string
-    time: string
-
+    id: number
+    created_at: string
     love_count: number
     confetti_count: number
     clap_count: number
     wow_count: number
+    text: string
+}
 
-    text: TextChunk[]
+type Thx = {
+    receivers: User[]
+    giver: User
+    id: number
+    time: string
+    loveCount: number
+    confettiCount: number
+    clapCount: number
+    wowCount: number
+    chunks: TextChunk[]
 }
 
 type TextChunk =

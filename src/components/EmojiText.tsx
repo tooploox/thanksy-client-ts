@@ -14,7 +14,7 @@ const replaceEmoji = (word: string) => {
 // const parseCb = (icon: string) => console.log(`https://twemoji.maxcdn.com/svg/${icon}.svg`)
 // twemoji.parse(replaceEmoji(":smile:"), { callback: parseCb })
 
-const parseCb2 = (icon: string) => console.log(`https://twemoji.maxcdn.com/svg/${icon}.svg`)
+const parseCb2 = (icon: string) => console.log(`foo https://twemoji.maxcdn.com/svg/${icon}.svg`)
 twemoji.parse(replaceEmoji("🤑"), { callback: parseCb2 })
 
 const EmojiWord: React.SFC<{ word: string }> = ({ word }) => {

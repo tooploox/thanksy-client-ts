@@ -10,8 +10,8 @@ const NEW_THANKS_DISPLAYING_TIME_MS = 5000
 
 export class MainPlain extends React.Component {
     state = {
-        thanks: [] as ThxEntry[],
-        recentThanks: null as (ThxEntry | null),
+        thanks: [] as Thx[],
+        recentThanks: null as (Thx | null),
         newThanksVisible: true
     }
 
@@ -20,14 +20,14 @@ export class MainPlain extends React.Component {
         setTimeout(() => loadFeed().then(data => this.updateThanks(data)), FEED_LONG_PULLING_DELAY_MS)
     }
 
-    updateThanks = (updatedThanks: ThxEntry[]) => {
+    updateThanks = (updatedThanks: Thx[]) => {
         const { thanks } = this.state
         const newThanksAdded = thanks.length > 0 && thanks[0].id !== updatedThanks[0].id
         if (newThanksAdded) this.showNewThanksPopup(updatedThanks[0])
         this.setState({ thanks: updatedThanks })
     }
 
-    showNewThanksPopup = (newThanks: ThxEntry) => {
+    showNewThanksPopup = (newThanks: Thx) => {
         // this.audio.play()
         this.setState({ recentThanks: newThanks, newThanksVisible: true })
         setTimeout(() => this.setState({ newThanksVisible: false }), NEW_THANKS_DISPLAYING_TIME_MS)

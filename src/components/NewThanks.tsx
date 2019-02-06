@@ -5,7 +5,7 @@ import ScrollLock from "react-scrolllock"
 import "./NewThanks.scss"
 
 type Props = {
-    recentThanks: ThxEntry | null
+    recentThanks: Thx | null
     newThanksVisible: boolean
 }
 
