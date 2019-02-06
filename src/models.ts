@@ -40,6 +40,28 @@ export const validateThxList = (d: any): Result<Thx[], string> => {
     return Ok(thxs.map((v: Ok<Thx>) => v.value))
 }
 
+declare var require: any
+const emojilib = require("emojilib")
+const twemoji = require("twemoji").default
+
+const replaceEmoji = (word: string) => {
+    const emoji = emojilib.lib[`${word.replace(/:/g, "")}`]
+    return emoji ? emoji.char : word
+}
+
+export const setEmojiUrls = async (chunks: TextChunk[]) =>
+    Promise.all(
+        chunks.map(async chunk =>
+            chunk.type === "emoji"
+                ? new Promise<TextChunk>(res => {
+                      twemoji.parse(replaceEmoji(chunk.caption), (icon: string) =>
+                          res({ ...chunk, url: `https://twemoji.maxcdn.com/svg/${icon}.svg` })
+                      )
+                  })
+                : chunk
+        )
+    )
+
 export const validateThx = (data: any): Result<Thx, string> => {
     const t: ServerThx = data
     if (!t) return Err("Empty data")
@@ -57,11 +79,12 @@ export const validateThx = (data: any): Result<Thx, string> => {
     )
         return Err("Invalid number " + JSON.stringify(t))
     if (!isString(t.text) || !isString(t.created_at)) return Err("Invalid string " + JSON.stringify(t))
+    const chunks = parseText(t.text)
 
     const value: Thx = {
         receivers: maybeReceivers.map((v: Ok<User>) => v.value),
         giver: giver.value,
-        chunks: parseText(t.text),
+        chunks,
         id: t.id,
         clapCount: t.clap_count,
         confettiCount: t.confetti_count,
