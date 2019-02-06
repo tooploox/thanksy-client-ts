@@ -1,36 +1,9 @@
-import { isString, isArray, isNumber } from "./utils/converter"
 import * as moment from "moment"
+import { isString, isArray, isNumber } from "./utils/converter"
+import { parseText, replaceUtf8Emoji } from "./emoji"
 
-export const Text = (caption: string): TextChunk => ({ type: "text", caption })
-export const Nickname = (caption: string): TextChunk => ({ type: "nickname", caption })
-export const Emoji = (url: string | null, caption: string): TextChunk => ({ type: "emoji", caption, url })
-
-export const parseText = (text: string, acc: TextChunk[] = []): TextChunk[] => {
-    if (!text || !text.length) return acc
-    const emojiRes = /(:[a-zA-Z_0-9+-]+:)/g.exec(text)
-    const emojiIndex = emojiRes ? text.indexOf(emojiRes[0]) : -1
-
-    const nicknameRes = /(@[a-zA-Z_0-9.-]+)/g.exec(text)
-    const nicknameIndex = nicknameRes ? text.indexOf(nicknameRes[0]) : -1
-
-    if (emojiRes && (emojiIndex < nicknameIndex || nicknameIndex === -1)) {
-        if (emojiIndex !== 0) acc.push(Text(text.substr(0, emojiIndex)))
-        acc.push(Emoji("url", emojiRes[0]))
-        return parseText(text.substring(emojiIndex + emojiRes[0].length), acc)
-    }
-
-    if (nicknameRes && (nicknameIndex < emojiIndex || emojiIndex === -1)) {
-        if (nicknameIndex !== 0) acc.push(Text(text.substr(0, nicknameIndex)))
-        acc.push(Nickname(nicknameRes[0]))
-        return parseText(text.substring(nicknameIndex + nicknameRes[0].length), acc)
-    }
-    return [...acc, Text(text)]
-}
-
-// TODO: get url on text parse result using twemoji.parse's callback
 export const Err = <T>(error: T): Err<T> => ({ type: "Err", error })
 export const Ok = <T>(value: T): Ok<T> => ({ type: "Ok", value })
-export const Nothing = (): Nothing => ({ type: "nothing" })
 
 export const validateThxList = (d: any): Result<Thx[], string> => {
     if (!isArray(d)) return Err("Invalid payload - array expected")
@@ -39,28 +12,6 @@ export const validateThxList = (d: any): Result<Thx[], string> => {
     if (invalidThx) return invalidThx
     return Ok(thxs.map((v: Ok<Thx>) => v.value))
 }
-
-declare var require: any
-const emojilib = require("emojilib")
-const twemoji = require("twemoji").default
-
-const replaceEmoji = (word: string) => {
-    const emoji = emojilib.lib[`${word.replace(/:/g, "")}`]
-    return emoji ? emoji.char : word
-}
-
-export const setEmojiUrls = async (chunks: TextChunk[]) =>
-    Promise.all(
-        chunks.map(async chunk =>
-            chunk.type === "emoji"
-                ? new Promise<TextChunk>(res => {
-                      twemoji.parse(replaceEmoji(chunk.caption), (icon: string) =>
-                          res({ ...chunk, url: `https://twemoji.maxcdn.com/svg/${icon}.svg` })
-                      )
-                  })
-                : chunk
-        )
-    )
 
 export const validateThx = (data: any): Result<Thx, string> => {
     const t: ServerThx = data
@@ -79,12 +30,11 @@ export const validateThx = (data: any): Result<Thx, string> => {
     )
         return Err("Invalid number " + JSON.stringify(t))
     if (!isString(t.text) || !isString(t.created_at)) return Err("Invalid string " + JSON.stringify(t))
-    const chunks = parseText(t.text)
 
     const value: Thx = {
         receivers: maybeReceivers.map((v: Ok<User>) => v.value),
         giver: giver.value,
-        chunks,
+        chunks: parseText(replaceUtf8Emoji(t.text)),
         id: t.id,
         clapCount: t.clap_count,
         confettiCount: t.confetti_count,

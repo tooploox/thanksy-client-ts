@@ -14,7 +14,8 @@ import {
     toOption,
     toArray,
     numberWithCommas,
-    isMobile
+    isMobile,
+    flatten
 } from "."
 
 // import { check, integer, array } from "kitimat-jest"
@@ -269,6 +270,12 @@ describe("utils", () => {
                 )
             ).toEqual(false)
         })
+    })
+
+    it("flatten an array", () => {
+        expect(flatten([1, [2]])).toEqual([1, 2])
+        expect(flatten([1, 2])).toEqual([1, 2])
+        expect(flatten([1, [2], [[3]]], 2)).toEqual([1, 2, 3])
     })
 
     it("converts named to toOption", () =>

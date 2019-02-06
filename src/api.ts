@@ -1,4 +1,5 @@
-import { validateThxList, setEmojiUrls } from "./models"
+import { validateThxList } from "./models"
+import { setEmojiUrls } from "./emoji"
 declare var process: any
 const API_URI = process.env.API_URL || "https://thanksy.herokuapp.com"
 

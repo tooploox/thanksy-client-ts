@@ -91,6 +91,15 @@ h1 {
     box-shadow: 0 .3rem .7rem 0 rgba(0, 0, 0, 0.1);
 }
 
+.thanksBox img {
+    width: 2.5rem;
+}
+
+.emoji2 {
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+}
+
 .thanksBox .avatarsContainer {
     margin-top: 3rem;
     display: flex;

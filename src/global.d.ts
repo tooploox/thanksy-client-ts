@@ -37,6 +37,7 @@ type User = {
     name: string
     id: string
 }
+
 type ServerThx = {
     receivers: User[]
     giver: User
@@ -60,10 +61,5 @@ type Thx = {
     wowCount: number
     chunks: TextChunk[]
 }
-
-type TextChunk =
-    | { type: "text"; caption: string }
-    | { type: "nickname"; caption: string }
-    | { type: "emoji"; url: string | null; caption: string }
-
-// Sub API -> Convert -> View
+type Emoji = { type: "emoji"; url: string; caption: string }
+type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption: string } | Emoji

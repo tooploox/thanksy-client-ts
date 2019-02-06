@@ -1,10 +1,5 @@
 import * as React from "react"
-
-const Chunk: React.SFC<{ value: TextChunk }> = ({ value }) => {
-    if (value.type === "nickname") return <b>{value.caption}</b>
-    if (value.type === "emoji") return <img src={value.url || ""}>{value.caption}</img>
-    return <b>{value.caption}</b>
-}
+import { TextChunk } from "./TextChunk"
 
 export const Feed: React.SFC<{ thanks: Thx[] }> = ({ thanks }) => {
     return (
@@ -22,16 +17,11 @@ export const Feed: React.SFC<{ thanks: Thx[] }> = ({ thanks }) => {
                         </div>
                         <div className="thanksBox">
                             {thx.chunks.map((v, key) => (
-                                <Chunk key={key} value={v} />
+                                <TextChunk key={key} value={v} />
                             ))}
                             <div className="avatarsContainer">
-                                {thx.receivers.map(receiver => (
-                                    <img
-                                        className="avatar"
-                                        src={receiver.avatar_url}
-                                        alt={receiver.name}
-                                        key={receiver.id}
-                                    />
+                                {thx.receivers.map((receiver, key) => (
+                                    <img className="avatar" src={receiver.avatar_url} alt={receiver.name} key={key} />
                                 ))}
                             </div>
                             <div className="reactions">

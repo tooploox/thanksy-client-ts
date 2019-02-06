@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "connected-react-router": "^6.2.2",
+    "emoji-regex": "^7.0.3",
     "emojilib": "^2.4.0",
     "history": "^4.7.2",
     "moment": "^2.24.0",
@@ -29,6 +30,7 @@
     "twemoji": "^11.3.0"
   },
   "devDependencies": {
+    "@types/emoji-regex": "^7.0.0",
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/history": "^4.7.2",

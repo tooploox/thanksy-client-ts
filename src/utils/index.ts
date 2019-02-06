@@ -66,3 +66,6 @@ export const numberWithCommas = (x: number) => x.toString().replace(/\B(?=(\d{3}
 
 export const isMobile = (ua?: string) =>
     [/Android/i, /webOS/i, /iPhone/i, /iPad/i].find(r => (ua || navigator.userAgent).match(r) !== null) !== undefined
+
+export const flatten = <T>(ts: any[], depth = 2): T[] =>
+    ts.reduce((acc, ts2) => acc.concat(Array.isArray(ts2) && depth - 1 ? flatten(ts2, depth - 1) : ts2), [])
