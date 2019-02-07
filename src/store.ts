@@ -2,14 +2,13 @@ import { LoopReducer, install, combineReducers, Cmd } from "redux-loop"
 import { Store, compose, createStore, Dispatch, applyMiddleware } from "redux"
 import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
-import { extend } from "./utils"
-import { createAction } from "../utils/typedActions"
-import { loadFeed } from "../api"
+import { createAction, extend } from "./utils/redux"
+import { loadFeed } from "./api"
 
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
 export type Actions = ReturnType<typeof actions[keyof typeof actions]>
-export const initialAppState: AppState = { thxList: [], error: null }
+export const initialAppState: AppState = { thxList: [], recentThxList: [], error: null }
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {

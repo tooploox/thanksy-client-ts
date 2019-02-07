@@ -1,4 +1,4 @@
-import { reducer, initialState } from "."
+import { reducer, initialState } from "./store"
 
 describe("counter state", () => {
     describe("reducer", () => {

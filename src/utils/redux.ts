@@ -1,6 +1,12 @@
 import { CmdType, loop, Loop } from "redux-loop"
 import { Action } from "redux"
 
+export function createAction<A extends string>(type: A): TypedAction<A>
+export function createAction<P, A extends string>(type: A, payload: P): TypePayloadAction<A, P>
+export function createAction(type: any, payload?: any) {
+    return payload !== undefined ? { type, payload } : { type }
+}
+
 export type Ext<A extends Action = any, TState = RootState> = (
     e: Partial<TState>,
     cmd?: CmdType<A>

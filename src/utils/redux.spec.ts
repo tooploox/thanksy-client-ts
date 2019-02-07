@@ -1,4 +1,4 @@
-import { createAction } from "./typedActions"
+import { createAction } from "./redux"
 
 describe("utils", () => {
     describe("createAction()", () => {

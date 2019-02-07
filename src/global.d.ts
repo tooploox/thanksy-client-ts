@@ -1,4 +1,4 @@
-/// <reference path="./utils/typedActions.d.ts" />
+/// <reference path="./utils/redux.d.ts" />
 declare module "*.scss"
 declare module "*.png"
 declare module "*.mp3"
@@ -60,5 +60,6 @@ type RootState = {
 
 type AppState = {
     thxList: Thx[]
+    recentThxList: Thx[]
     error: Error | null
 }
