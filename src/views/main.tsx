@@ -11,7 +11,7 @@ export const MainPlain: React.SFC<AppState> = p => (
         <ThxList thxList={p.thxList} />
         {/* <NewThanks recentThanks={this.state.recentThanks} newThanksVisible={this.state.newThanksVisible} /> */}
         <Toasts
-            backgroundTask={false}
+            backgroundTask
             notifications={{
                 "1": {
                     text: "Interner connection issue ",
