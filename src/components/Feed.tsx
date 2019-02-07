@@ -1,5 +1,6 @@
 import * as React from "react"
 import { TextChunk } from "./TextChunk"
+import { Avatars } from "./Avatars"
 
 export const Feed: React.SFC<{ thanks: Thx[] }> = ({ thanks }) => {
     return (
@@ -19,11 +20,7 @@ export const Feed: React.SFC<{ thanks: Thx[] }> = ({ thanks }) => {
                             {thx.chunks.map((v, key) => (
                                 <TextChunk key={key} value={v} />
                             ))}
-                            <div className="avatarsContainer">
-                                {thx.receivers.map((receiver, key) => (
-                                    <img className="avatar" src={receiver.avatar_url} alt={receiver.name} key={key} />
-                                ))}
-                            </div>
+                            <Avatars users={thx.receivers} maxCount={11} />
                             <div className="reactions">
                                 <ul>
                                     <li>

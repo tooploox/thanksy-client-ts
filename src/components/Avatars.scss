@@ -1,0 +1,43 @@
+$size: 7rem;
+.Avatar {
+    border-radius: 50%;
+    height: $size;
+    width: $size;
+    min-width: $size;
+    background: #ebebeb;
+    border: .5rem solid white;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: calc(#{$size} *1.05) calc(#{$size} * 1.05);
+}
+
+.Avatars {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
+    align-content: stretch;
+    align-items: flex-start;
+    &__Container {
+        flex: 1;
+        flex-direction: row;
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-content: stretch;
+        align-items: flex-start;
+        .Avatar {
+            margin-left: -3.7rem;
+        }
+        :last-child {
+            margin-left: 0 !important;
+        }
+    }
+    &__Collapsed {
+        @extend .Avatar;
+        line-height: $size;
+        text-align: center;
+        font-weight: 500;
+        font-size: 2.3rem;
+    }
+}
