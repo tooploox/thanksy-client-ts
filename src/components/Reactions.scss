@@ -1,7 +1,8 @@
-$size: 2.5rem;
+$size: 3.1rem;
 .Reaction {
     display: flex;
     flex: 1;
+    flex: 0 0 5rem;
     &__Icon {
         width: $size;
         height: $size;
@@ -23,6 +24,15 @@ $size: 2.5rem;
     }
     &__Count {
         line-height: $size;
-        padding-left: 1rem;
+        padding-left: 2.6rem;
     }
+}
+
+.Reactions {
+    padding: 5rem 0 0 0;
+    display: flex;
+    font-size: 2.5rem;
+    font-weight: 500;
+    flex-direction: row;
+    justify-content: space-between;
 }

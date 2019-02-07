@@ -1,7 +1,7 @@
 import * as React from "react"
-import { shallow } from "enzyme"
+import { shallow, mount } from "enzyme"
 
-import { TextChunk } from "./TextChunk"
+import { TextChunk, TextChunks } from "./TextChunk"
 import { Text, Nickname, Emoji } from "../emoji"
 
 describe("<TextChunk>", () => {
@@ -21,5 +21,35 @@ describe("<TextChunk>", () => {
 
         expect(img.prop("src")).toEqual(url)
         expect(img.prop("alt")).toEqual("👌")
+    })
+})
+
+describe("<TextChunks>", () => {
+    const chunks = [
+        Emoji(":wow:", "wow-url"),
+        Text(" Thanks "),
+        Nickname("@charlie.hebdo"),
+        Text(" for keeping the good sense of humor "),
+        Emoji(":fist:", "fist-url")
+    ]
+
+    it("Renders all given chunks", () => {
+        const cs = mount(<TextChunks chunks={chunks} />)
+
+        chunks.forEach((value, i) => expect(cs.childAt(i).props()).toEqual({ value }))
+
+        const marks = cs.find("mark")
+        expect(marks.length).toEqual(1)
+        expect(marks.last().contains("@charlie.hebdo")).toBeTruthy()
+
+        const spans = cs.find("span")
+        expect(spans.length).toEqual(2)
+        expect(spans.first().contains(" Thanks ")).toBeTruthy()
+        expect(spans.last().contains(" for keeping the good sense of humor ")).toBeTruthy()
+
+        const imgs = cs.find("img")
+        expect(imgs.length).toEqual(2)
+        expect(imgs.first().prop("src")).toEqual("wow-url")
+        expect(imgs.last().prop("src")).toEqual("fist-url")
     })
 })
