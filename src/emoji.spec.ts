@@ -44,6 +44,17 @@ describe("Text parser", () => {
             expect(parseText(":smile:@nick:smile:")).toEqual([Emoji(":smile:"), Nickname("@nick"), Emoji(":smile:")]))
     })
 
+    describe("parse text replacer", () => {
+        it("Removes <!groups > string", () =>
+            expect(parseText("<!subteam^S0JRJKY1G|@foo.bar> foo <!subteam^S0JRJKY1G|@xxx-asd>")).toEqual([
+                Nickname("@foo.bar"),
+                Text(" foo "),
+                Nickname("@xxx-asd")
+            ]))
+        it("Support utf emoji", () =>
+            expect(parseText("😀😂 foo")).toEqual([Emoji(":grinning:"), Emoji(":joy:"), Text(" foo")]))
+    })
+
     it("parse complicated case", () =>
         expect(parseText(":@foo@bar:smile::smile:how are you?:")).toEqual([
             Text(":"),

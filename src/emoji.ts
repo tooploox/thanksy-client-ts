@@ -1,6 +1,5 @@
 import { getter, remap } from "./utils"
 
-declare var require: any
 const emojiRegex = require("emoji-regex")()
 const emojilib = require("emojilib")
 const twemoji = require("twemoji").default
@@ -8,11 +7,9 @@ const twemoji = require("twemoji").default
 const emojiByName = remap<{ char: string }>(emojilib.lib, (_, name) => `:${name}:`, v => v)
 const emojiNameByUtf8 = remap<{ char: string }, string>(emojiByName, v => v.char, (_, name) => name)
 
-// Object.keys(emojilib.lib).forEach(name => (emojiByName[`:${name}:`] = emojilib.lib[name]))
-// Object.keys(emojiByName).forEach(name => (emojiNameByUtf8[emojiByName[name].char] = name))
-
 const replaceEmoji = (name: string) => (emojiByName[name] ? emojiByName[name].char : name)
 export const replaceUtf8Emoji = (text: string) => text.replace(emojiRegex, match => emojiNameByUtf8[match] || match)
+
 export const Text = (caption: string): TextChunk => ({ type: "text", caption })
 export const Nickname = (caption: string): TextChunk => ({ type: "nickname", caption })
 export const Emoji = (caption: string, url: string = ""): TextChunk => ({ type: "emoji", caption, url })
@@ -38,11 +35,18 @@ export const parseTextRec = (text: string, acc: TextChunk[] = []): TextChunk[] =
     return text ? [...acc, Text(text)] : acc
 }
 
-export const parseText = (text: string, acc: TextChunk[] = []) => parseTextRec(replaceUtf8Emoji(text), acc)
+export const parseText = (text: string, acc: TextChunk[] = []) => {
+    const noGroups = text.replace(/<!subteam.[A-Za-z0-9]+.(@[a-zA-Z0-9._-]+)[>]*/g, (_, g) => g)
+    const noUtfEmoji = replaceUtf8Emoji(noGroups)
+    return parseTextRec(noUtfEmoji, acc)
+}
+
+const emojiUrl = (name: string) => `https://twemoji.maxcdn.com/2/72x72/${name}.png`
+// `https://twemoji.maxcdn.com/svg/${name}.svg`
 
 // console.log(replaceUtf8Emoji("@konrad.kolasa lej ten płyn 💁🏼‍♂️ 🥃"))
 const extEmoji = ({ caption }: Emoji, name: string) =>
-    Emoji(getter(emojiByName[caption], "char") || caption, `https://twemoji.maxcdn.com/svg/${name}.svg`)
+    Emoji(getter(emojiByName[caption], "char") || caption, emojiUrl(name))
 
 const setEmojiUrl = async (c: Emoji): Promise<TextChunk> => {
     if (c.type !== "emoji") return c

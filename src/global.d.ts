@@ -63,3 +63,4 @@ type Thx = {
 }
 type Emoji = { type: "emoji"; url: string; caption: string }
 type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption: string } | Emoji
+declare var require: any
