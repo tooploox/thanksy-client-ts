@@ -1,11 +1,5 @@
-import { Cmd, CmdType, loop, Loop } from "redux-loop"
+import { CmdType, loop, Loop } from "redux-loop"
 import { Action } from "redux"
-
-export const sideEfect = (cmd: () => void) =>
-    Cmd.run(cmd, {
-        successActionCreator: () => null as any,
-        failActionCreator: () => null as any
-    })
 
 export type Ext<A extends Action = any, TState = RootState> = (
     e: Partial<TState>,

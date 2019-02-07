@@ -1,6 +1,5 @@
 import * as React from "react"
 import ScrollLock from "react-scrolllock"
-// import { EmojiText } from "./EmojiText"
 
 import "./NewThanks.scss"
 
@@ -8,6 +7,7 @@ type Props = {
     recentThanks: Thx | null
     newThanksVisible: boolean
 }
+// const audio = new Audio(cheer)
 
 export const NewThanks: React.SFC<Props> = ({ recentThanks, newThanksVisible }) => {
     if (!recentThanks) return null

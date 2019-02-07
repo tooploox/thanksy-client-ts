@@ -1,5 +1,4 @@
 /// <reference path="./utils/typedActions.d.ts" />
-/// <reference path="./store/actions.d.ts" />
 declare module "*.scss"
 declare module "*.png"
 declare module "*.mp3"
@@ -53,3 +52,13 @@ type Thx = {
 type Emoji = { type: "emoji"; url: string; caption: string }
 type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption: string } | Emoji
 declare var require: any
+
+type RootState = {
+    app: AppState
+    reducer: any
+}
+
+type AppState = {
+    thxList: Thx[]
+    error: Error | null
+}
