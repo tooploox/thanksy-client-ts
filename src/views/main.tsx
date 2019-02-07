@@ -11,10 +11,10 @@ export const MainPlain: React.SFC<AppState> = p => (
         <ThxList thxList={p.thxList} />
         {/* <NewThanks recentThanks={this.state.recentThanks} newThanksVisible={this.state.newThanksVisible} /> */}
         <Toasts
-            backgroundTask
+            backgroundTask={false}
             notifications={{
                 "1": {
-                    text: "Interner connection issue",
+                    text: "Interner connection issue ",
                     type: "Info"
                 }
             }}
