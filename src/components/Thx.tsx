@@ -3,14 +3,14 @@ import { TextChunks } from "./TextChunks"
 import { Avatars } from "./Avatars"
 import { Reactions } from "./Reactions"
 import { bind } from "../utils/bem"
-import { UserCard } from "./UserCard"
-import "./ThxCard.scss"
+import { UserHeader } from "./UserHeader"
+import "./Thx.scss"
 
-const { Block, Element } = bind("ThxCard")
+const { Block, Element } = bind("Thx")
 
-export const ThxCard: React.SFC<Thx> = p => (
+export const Thx: React.SFC<Thx> = p => (
     <Block>
-        <UserCard {...p.giver} createdAt={p.createdAt} />
+        <UserHeader {...p.giver} createdAt={p.createdAt} />
         <Element name="Content">
             <TextChunks chunks={p.chunks} />
             <Avatars users={p.receivers} maxCount={11} />

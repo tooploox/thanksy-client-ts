@@ -1,9 +1,9 @@
 import * as React from "react"
 import { bind } from "../utils/bem"
-import "./UserCard.scss"
-const { Block, Element } = bind("UserCard")
+import "./UserHeader.scss"
+const { Block, Element } = bind("UserHeader")
 
-export const UserCard: React.SFC<User & { createdAt: string }> = p => (
+export const UserHeader: React.SFC<User & { createdAt: string }> = p => (
     <Block>
         <Element name="Avatar">
             <img src={p.avatar_url} alt={p.real_name} />

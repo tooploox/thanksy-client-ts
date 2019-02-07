@@ -1,7 +1,7 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { NewThanks } from "../components/NewThanks"
-import { Feed } from "../components/Feed"
+import { ThxList } from "../components/ThxList"
 import { loadFeed } from "../api"
 
 // const audio = new Audio(cheer)
@@ -36,7 +36,7 @@ export class MainPlain extends React.Component {
     render() {
         return (
             <>
-                <Feed thanks={this.state.thanks} />
+                <ThxList thxList={this.state.thanks} />
                 <NewThanks recentThanks={this.state.recentThanks} newThanksVisible={this.state.newThanksVisible} />
             </>
         )
