@@ -1,0 +1,28 @@
+$size: 2.5rem;
+.Reaction {
+    display: flex;
+    flex: 1;
+    &__Icon {
+        width: $size;
+        height: $size;
+        background-size: $size $size;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+    &--love &__Icon {
+        background-image: url("https://twemoji.maxcdn.com/2/72x72/2764.png")
+    }
+    &--confetti &__Icon {
+        background-image: url("https://twemoji.maxcdn.com/72x72/1f389.png")
+    }
+    &--clap &__Icon {
+        background-image: url("https://twemoji.maxcdn.com/72x72/1f44f.png")
+    }
+    &--wow &__Icon {
+        background-image: url("https://twemoji.maxcdn.com/72x72/1f62f.png")
+    }
+    &__Count {
+        line-height: $size;
+        padding-left: 1rem;
+    }
+}

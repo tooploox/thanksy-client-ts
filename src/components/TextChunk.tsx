@@ -17,3 +17,11 @@ export const TextChunk: React.SFC<{ value: TextChunk }> = ({ value }) => {
             return <Text>{value.caption}</Text>
     }
 }
+
+export const TextChunks: React.SFC<{ chunks: TextChunk[] }> = p => (
+    <>
+        {p.chunks.map((value, key) => (
+            <TextChunk key={key} value={value} />
+        ))}
+    </>
+)
