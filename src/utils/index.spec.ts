@@ -11,9 +11,7 @@ import {
     remap,
     call,
     iterateObject,
-    toOption,
     toArray,
-    numberWithCommas,
     isMobile,
     flatten
 } from "."
@@ -238,11 +236,6 @@ describe("utils", () => {
             expect(toArray({ k1: "foo", k2: "bar" }, (value, _, _2) => value)).toEqual(["foo", "bar"])
         })
     })
-    it("numberWithCommas()", () => {
-        expect(numberWithCommas(100)).toEqual("100")
-        expect(numberWithCommas(1000)).toEqual("1,000")
-    })
-
     describe("isMobile()", () => {
         it("detects iphone as mobile", () => {
             expect(
@@ -277,8 +270,4 @@ describe("utils", () => {
         expect(flatten([1, 2])).toEqual([1, 2])
         expect(flatten([1, [2], [[3]]], 2)).toEqual([1, 2, 3])
     })
-
-    it("converts named to toOption", () =>
-        expect(toOption({ name: "name", id: "id" })).toEqual({ label: "name", value: "id" }))
-    // tslint:disable-next-line:max-file-line-count
 })

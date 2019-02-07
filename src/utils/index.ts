@@ -23,8 +23,6 @@ export const remap = <T, S = any>(
     return res
 }
 
-export const toOption = ({ name, id }: Named): Option => ({ label: name, value: id })
-
 export const toArray = <T, T2>(map: SMap<T>, toValue: (t: T, key: keyof T, index: number) => T2) => {
     const result: T2[] = []
     Object.keys(map || {}).forEach((field, index) => result.push(toValue(map[field], field as keyof T, index)))
@@ -61,8 +59,6 @@ export function call(f: any, arg?: any): void {
 
 export const iterateObject = <T>(o: T, cb: (key: keyof T, value: any) => void) =>
     Object.keys(o || {}).forEach(field => cb(field as keyof T, o[field as keyof T]))
-
-export const numberWithCommas = (x: number) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
 export const isMobile = (ua?: string) =>
     [/Android/i, /webOS/i, /iPhone/i, /iPad/i].find(r => (ua || navigator.userAgent).match(r) !== null) !== undefined

@@ -11,7 +11,7 @@ const replaceEmoji = (name: string) => (emojiByName[name] ? emojiByName[name].ch
 export const replaceUtf8Emoji = (text: string) => text.replace(emojiRegex, match => emojiNameByUtf8[match] || match)
 
 export const Text = (caption: string): TextChunk => ({ type: "text", caption })
-export const Nickname = (caption: string): TextChunk => ({ type: "nickname", caption })
+export const Nickname = (caption: string): TextChunk => ({ type: "nickname", caption: caption === "🥳" ? "" : caption })
 export const Emoji = (caption: string, url: string = ""): TextChunk => ({ type: "emoji", caption, url })
 
 export const parseTextRec = (text: string, acc: TextChunk[] = []): TextChunk[] => {
@@ -44,7 +44,6 @@ export const parseText = (text: string, acc: TextChunk[] = []) => {
 const emojiUrl = (name: string) => `https://twemoji.maxcdn.com/2/72x72/${name}.png`
 // `https://twemoji.maxcdn.com/svg/${name}.svg`
 
-// console.log(replaceUtf8Emoji("@konrad.kolasa lej ten płyn 💁🏼‍♂️ 🥃"))
 const extEmoji = ({ caption }: Emoji, name: string) =>
     Emoji(getter(emojiByName[caption], "char") || caption, emojiUrl(name))
 

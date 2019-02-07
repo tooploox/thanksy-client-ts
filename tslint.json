@@ -50,7 +50,7 @@
         ],
         "max-file-line-count": [
             true,
-            260
+            360
         ],
         "no-implicit-dependencies": [true, "dev"]
 

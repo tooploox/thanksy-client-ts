@@ -2,11 +2,7 @@ import * as React from "react"
 
 const Emoji: React.SFC<{ src: string; alt: string }> = p => {
     const [empty, setEmpty] = React.useState(false)
-    return empty ? (
-        <Text>{p.alt === "🥳" ? "" : p.alt}</Text>
-    ) : (
-        <img src={p.src} alt={p.alt} onError={() => setEmpty(true)} />
-    )
+    return empty ? <Text>{p.alt}</Text> : <img src={p.src} alt={p.alt} onError={() => setEmpty(true)} />
 }
 const Nickname: React.SFC = p => <mark>{p.children}</mark>
 const Text: React.SFC = p => <span>{p.children}</span>

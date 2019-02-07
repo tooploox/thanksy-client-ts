@@ -30,8 +30,8 @@ export const validateThx = (data: any): Result<Thx, string> => {
     )
         return Err("Invalid number " + JSON.stringify(t))
     if (!isString(t.text) || !isString(t.created_at)) return Err("Invalid string " + JSON.stringify(t))
-    const date = DateTime.fromISO(t.created_at)
-    const createdAt = `${date.toRelativeCalendar()} at ${date.toLocaleString(DateTime.TIME_SIMPLE)}`
+    const d = DateTime.fromISO(t.created_at)
+    const createdAt = `${d.toRelativeCalendar()} at ${d.toLocaleString(DateTime.TIME_SIMPLE)}`
     const value: Thx = {
         receivers: maybeReceivers.map((v: Ok<User>) => v.value),
         giver: giver.value,
