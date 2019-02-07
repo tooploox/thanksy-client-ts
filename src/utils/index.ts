@@ -23,6 +23,20 @@ export const remap = <T, S = any>(
     return res
 }
 
+export const mapObject = <T, T2 = T>(
+    map: SMap<T>,
+    toValue: (t: T, key: keyof SMap<T>, index?: number) => T2,
+    condition: (t: T, key?: keyof T) => boolean = () => true
+): T2[] => {
+    const result: T2[] = []
+    const f = (field: string, index: number) => {
+        const v = map[field as any]
+        if (condition(v)) result.push(toValue(v, field as any, index))
+    }
+    Object.keys(map || {}).forEach(f)
+    return result
+}
+
 export const toArray = <T, T2>(map: SMap<T>, toValue: (t: T, key: keyof T, index: number) => T2) => {
     const result: T2[] = []
     Object.keys(map || {}).forEach((field, index) => result.push(toValue(map[field], field as keyof T, index)))
@@ -51,9 +65,9 @@ export const joinArrays = <T>(arr1: T[], arr2: T[], compare: (a: T, b: T) => boo
     return res
 }
 
-export function call(f: () => void): void
-export function call<T>(f: (arg: T) => void, arg: T): void
-export function call(f: any, arg?: any): void {
+export function call(f?: () => void): void
+export function call<T>(f?: (arg: T) => void, arg?: T): void
+export function call(f?: any | null, arg?: any): void {
     if (isFunction(f)) f(arg)
 }
 

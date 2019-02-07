@@ -12,6 +12,7 @@ import {
     call,
     iterateObject,
     toArray,
+    mapObject,
     isMobile,
     flatten
 } from "."
@@ -19,6 +20,20 @@ import {
 // import { check, integer, array } from "kitimat-jest"
 
 describe("utils", () => {
+    describe("mapObject", () => {
+        it("maps object to array of keys with no filter", () =>
+            expect(mapObject({ k1: "foo", k2: "bar" }, (_, key) => key)).toEqual(["k1", "k2"]))
+
+        it("maps object to array of values with no filter", () =>
+            expect(mapObject({ k1: "foo", k2: "bar" }, v => v)).toEqual(["foo", "bar"]))
+
+        it("maps object to array of values with filter", () =>
+            expect(mapObject({ k1: "foo", k2: "bar" }, v => v, v => v !== "bar")).toEqual(["foo"]))
+
+        it("maps object to array of values with filter 2", () =>
+            expect(mapObject({ k1: "foo", k2: "bar" }, v => v, _ => false)).toEqual([]))
+    })
+
     describe("repeat()", () => {
         it("repeats 0 times", () => {
             expect(mapRepeat(0, _ => null)).toEqual([])

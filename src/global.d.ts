@@ -58,8 +58,19 @@ type RootState = {
     reducer: any
 }
 
+type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxView" | "ThxListView" | "Offline"
+
 type AppState = {
+    status: AppStatus
     thxList: Thx[]
     recentThxList: Thx[]
     error: Error | null
+}
+
+type AppNotificationType = "Info" | "Error"
+
+interface AppNotification {
+    text: string
+    actionText?: string
+    type: AppNotificationType
 }

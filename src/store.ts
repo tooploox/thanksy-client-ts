@@ -8,13 +8,14 @@ import { loadFeed } from "./api"
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
 export type Actions = ReturnType<typeof actions[keyof typeof actions]>
-export const initialAppState: AppState = { thxList: [], recentThxList: [], error: null }
+export const initialAppState: AppState = { thxList: [], recentThxList: [], error: null, status: "Loading" }
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {
     updateThxList: () => createAction("updateThxList"),
     setThxList: (thxList: Thx[]) => createAction("setThxList", thxList),
-    setThxListFailed: (error: Error) => createAction("setThxListFailed", error)
+    setThxListFailed: (error: Error) => createAction("setThxListFailed", error),
+    setStatus: (status: AppStatus) => createAction("setStatus", status)
 }
 
 const loadFeedCmd = () =>
@@ -28,7 +29,7 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
     const ext = extend(state)
     switch (action.type) {
         case "updateThxList":
-            return ext({}, loadFeedCmd())
+            return ext({ status: "Loading" }, loadFeedCmd())
 
         case "setThxList":
             return ext({ thxList: action.payload })
@@ -59,6 +60,7 @@ export const getStore = () => {
         )
     )
     _store.dispatch(actions.updateThxList())
-    setInterval(() => _store.dispatch(actions.updateThxList()), 5000)
+
+    setInterval(() => _store.dispatch(actions.updateThxList()), 15000)
     return _store
 }
