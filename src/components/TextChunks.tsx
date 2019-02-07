@@ -1,4 +1,5 @@
 import * as React from "react"
+import "./TextChunks.scss"
 
 const Emoji: React.SFC<{ src: string; alt: string }> = p => {
     const [empty, setEmpty] = React.useState(false)
@@ -19,9 +20,9 @@ export const TextChunk: React.SFC<{ value: TextChunk }> = ({ value }) => {
 }
 
 export const TextChunks: React.SFC<{ chunks: TextChunk[] }> = p => (
-    <>
+    <div className="TextChunks">
         {p.chunks.map((value, key) => (
             <TextChunk key={key} value={value} />
         ))}
-    </>
+    </div>
 )

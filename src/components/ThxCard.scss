@@ -1,0 +1,18 @@
+.ThxCard {
+    margin-left: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.ThxCard {
+    &__Content {
+        background-color: white;
+        border-radius: 1rem;
+        margin: 1.8rem;
+        width: 60rem;
+        position: relative;
+        padding: 3em;
+        box-shadow: 0 .3rem .7rem 0 rgba(0, 0, 0, 0.1);
+    }
+}

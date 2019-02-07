@@ -1,0 +1,27 @@
+@mixin gradient-text($bg) {
+    background: $bg;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.TextChunks {
+    font-weight: 600;
+    font-size: 3rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    img {
+        width: 3rem;
+        height: 3rem;
+        padding: 0 .3rem;
+    }
+    mark:nth-of-type(1n) {
+        @include gradient-text(linear-gradient(330deg, rgb(90, 253, 161) 0%, rgb(82, 204, 244) 100%));
+    }
+    mark:nth-of-type(2n) {
+        @include gradient-text(linear-gradient(330deg, rgb(251, 139, 171) 0%, rgb(156, 148, 232) 50%, rgb(104, 225, 239) 100%));
+    }
+    mark:nth-of-type(3n) {
+        @include gradient-text(linear-gradient(330deg, rgb(242, 194, 80) 0%, rgb(254, 85, 125) 100%));
+    }
+}

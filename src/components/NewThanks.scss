@@ -10,160 +10,51 @@ body {
     font-family: 'Poppins', Arial, Helvetica Neue, Helvetica, sans-serif;
     overflow-y: hidden;
     overflow-x: auto;
-}
-
-body,
-h1 {
     margin: 0;
     padding: 0;
 }
 
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: none;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #79a5b4;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+
 h1 {
+    margin: 0;
+    padding: 0;
     height: 1rem;
     padding: 2rem;
-    color: #9DC0CC;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    color: #79a5b4;
     position: fixed;
-    font-weight: 400;
     font-size: 4rem;
-    margin: 5rem 5rem -1rem;
+    top: 7vh;
+    left: 5rem;
 }
 
 .thanksContainer {
-    height: 100vh;
     display: flex;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.wrapper {
-    height: 100vh;
-    margin-top: 50vh;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-}
-
-.wrapper {
-    margin-left: 1.25rem;
-}
-
-.giver {
-    margin-left: 6rem;
-    margin-right: 6rem;
-    margin-bottom: 1rem;
-    display: flex;
-}
-
-.giver .avatar {
-    border-radius: 50%;
-    height: 5rem;
-    width: 5rem;
-    margin-right: 1.5rem;
-}
-
-.giver .giverName {
-    font-size: 2.5rem;
-    margin-bottom: 0.25rem;
-    letter-spacing: 0.01rem;
-    line-height: 2.5rem;
-    font-weight: 600;
-}
-
-.giver .time {
-    font-size: 1.7rem;
-    color: rgb(121, 165, 180);
-    letter-spacing: 0.025rem;
-    line-height: 2.5rem;
-}
-
-.thanksBox {
-    background-color: white;
-    border-radius: 2rem;
-    margin: 1.5rem;
-    min-width: 60rem;
-    position: relative;
-    padding: 4rem;
-    color: #000000;
-    font-size: 3rem;
-    font-weight: 600;
-    width: 10rem;
-    box-shadow: 0 .3rem .7rem 0 rgba(0, 0, 0, 0.1);
-}
-
-.thanksBox img {
-    width: 3rem;
-    margin-right: .5rem;
+    margin-top: 22vh;
 }
 
 .emoji2 {
     background-size: 20px 20px;
     background-repeat: no-repeat;
-}
-
-.thanksBox .avatarsContainer {
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    align-content: stretch;
-    align-items: flex-start;
-}
-
-.avatarsContainer .avatar {
-    border-radius: 50%;
-    height: 7rem;
-    width: 7rem;
-    margin-right: -3.5rem;
-    border: .7rem solid white;
-}
-
-.avatarsContainer .avatar {
-    margin-left: -.7rem;
-}
-
-.reactions ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0;
-    margin: 3rem 0 0;
-    font-size: 2.5rem;
-    margin-right: 5rem;
-}
-
-.reactions li {
-    list-style: none;
-}
-
-.reactions li span {
-    font-size: 2.5rem;
-    margin-right: .75rem;
-}
-
-.reactions li span img {
-    width: 2.5rem;
-    margin-right: .75rem;
-}
-
-mark:nth-of-type(1n) {
-    background: linear-gradient(330deg, rgb(90, 253, 161) 0%, rgb(82, 204, 244) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-mark:nth-of-type(2n) {
-    background: linear-gradient(330deg, rgb(251, 139, 171) 0%, rgb(156, 148, 232) 50%, rgb(104, 225, 239) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-mark:nth-of-type(3n) {
-    background: linear-gradient(330deg, rgb(242, 194, 80) 0%, rgb(254, 85, 125) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .newThanks {
@@ -214,8 +105,6 @@ mark:nth-of-type(3n) {
     transform: translateX(-50%);
     width: 53em;
 }
-
-.newThanks .confetti img {}
 
 .animatedTransition {
     transition: all 1s ease-in-out;

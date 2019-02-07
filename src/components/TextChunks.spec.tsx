@@ -1,7 +1,7 @@
 import * as React from "react"
 import { shallow, mount } from "enzyme"
 
-import { TextChunk, TextChunks } from "./TextChunk"
+import { TextChunk, TextChunks } from "./TextChunks"
 import { Text, Nickname, Emoji } from "../emoji"
 
 describe("<TextChunk>", () => {
@@ -34,7 +34,8 @@ describe("<TextChunks>", () => {
     ]
 
     it("Renders all given chunks", () => {
-        const cs = mount(<TextChunks chunks={chunks} />)
+        const wrapper = mount(<TextChunks chunks={chunks} />)
+        const cs = wrapper.children()
 
         chunks.forEach((value, i) => expect(cs.childAt(i).props()).toEqual({ value }))
 
