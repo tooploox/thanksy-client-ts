@@ -11,8 +11,8 @@ import "./Toasts.scss"
 const { Block, Element } = bind("Toast")
 
 export type ToastProps = AppNotification & { onClick?: F0 }
-const Toast: React.SFC<ToastProps> = ({ children, text, onClick, type }) => (
-    <Block modifiers={{ [type]: true }} onClick={_ => call(onClick)}>
+const Toast: React.SFC<ToastProps> = ({ children, text, onClick }) => (
+    <Block onClick={_ => call(onClick)}>
         <Element name="Content">{children || text}</Element>
         <Element name="Close" onClick={onClick} />
     </Block>

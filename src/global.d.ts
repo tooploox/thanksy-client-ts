@@ -60,17 +60,13 @@ type RootState = {
 
 type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxView" | "ThxListView" | "Offline"
 
-type Lists = { thxList: Thx[]; recentThxList: Thx[] }
+type Lists = { thxList: Thx[]; recentThxList: Thx[]; lastThxId: number }
 type AppState = Lists & {
     status: AppStatus
-    lastThxId: number
     notifications: AppNotification[]
 }
-
-type AppNotificationType = "Info" | "Error"
 
 interface AppNotification {
     text: string
     notificationId: string
-    type: AppNotificationType
 }
