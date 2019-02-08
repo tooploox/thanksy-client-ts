@@ -4,7 +4,7 @@ import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
 import { createAction, extend } from "./utils/redux"
 import { loadFeed } from "./api"
-import { cheerBase64 } from "./audio"
+import { cheerBase64 } from "./assets/audio"
 
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
@@ -49,11 +49,11 @@ const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9500)), { successActionCreator: actions.updateLastThxId })
 
 const cheerSound = new Audio(cheerBase64)
-const NO_SOUND = window.location.toString().indexOf("localhost") !== -1
+const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
-            if (NO_SOUND) throw new Error("NO_SOUND_SET")
+            if (isLocalHost) throw new Error("NO_SOUND_SET")
             cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
@@ -106,7 +106,7 @@ export const getStore = () => {
         initialState as any,
         compose(
             install(),
-            devTools(),
+            isLocalHost ? devTools() : f => f,
             applyMiddleware(routerMiddleware(getHistory()))
         )
     )

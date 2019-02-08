@@ -1,7 +1,7 @@
 import * as React from "react"
 import { render } from "react-dom"
 import { Provider } from "react-redux"
-import { Main } from "./views/Main"
+import { Main } from "./Main"
 import { Switch, Route } from "react-router-dom"
 import { ConnectedRouter } from "connected-react-router"
 import { getStore, getHistory } from "./store"

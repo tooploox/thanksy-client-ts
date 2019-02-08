@@ -1,11 +1,11 @@
 import * as React from "react"
 import { connect } from "react-redux"
-import { ThxList } from "../components/ThxList"
-import { MapState } from "../store"
-import { Toasts } from "../components/common/Toasts"
-import { Clock } from "../components/common/Clock"
-import { ModalAnimated } from "../components/common/ModalAnimated"
-import { NewThx } from "../components/NewThx"
+import { ThxList } from "./components/ThxList"
+import { MapState } from "./store"
+import { Toasts } from "./components/common/Toasts"
+import { Clock } from "./components/common/Clock"
+import { ModalAnimated } from "./components/common/ModalAnimated"
+import { NewThx } from "./components/NewThx"
 import "./Main.scss"
 
 export const MainPlain: React.SFC<AppState> = p => (

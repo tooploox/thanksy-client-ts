@@ -1,8 +1,8 @@
 /// <reference path="./utils/redux.d.ts" />
 
 declare module "*.scss"
-declare module "*.png"
-declare module "*.mp3"
+declare var require: any
+declare var process: any
 
 type Named = { id: string; name: string }
 type TMap<TKey extends string, TValue> = { [K in TKey]: TValue }
@@ -56,7 +56,6 @@ type Thx = {
 
 type Emoji = { type: "emoji"; url: string; caption: string }
 type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption: string } | Emoji
-declare var require: any
 
 type RootState = { app: AppState; reducer: any }
 
