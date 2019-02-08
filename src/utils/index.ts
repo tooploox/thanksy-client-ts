@@ -81,3 +81,5 @@ export const flatten = <T>(ts: any[], depth = 2): T[] =>
     ts.reduce((acc, ts2) => acc.concat(Array.isArray(ts2) && depth - 1 ? flatten(ts2, depth - 1) : ts2), [])
 
 export const getter = <T, T2 extends keyof T>(obj: T, field: T2): T[T2] | null => (obj ? obj[field] : null)
+export const pad = (n: number, width: number, z = "0") =>
+    n.toString().length >= width ? n : new Array(width - n.toString().length + 1).join(z) + n

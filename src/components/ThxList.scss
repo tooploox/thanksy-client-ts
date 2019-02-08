@@ -10,10 +10,32 @@
         padding: 2rem;
         font-weight: 500;
         letter-spacing: 0.1px;
-        color: #79a5b4;
         position: fixed;
         font-size: 4rem;
         top: 7vh;
         left: 5rem;
+    }
+    &__EmptyContainer {
+        width: 100vw;
+        height: 90vh;
+        flex-direction: column;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+    &__Empty {
+        background: url("../assets/empty.svg") center center;
+        background-size: 43.92rem 12rem;
+        width: 43.92rem;
+        font-weight: 500;
+        height: 12rem;
+    }
+    &__Title {
+        padding-top: 6rem;
+        font-size: 3.7rem;
+    }
+    &__Subtitle {
+        padding-top: .7rem;
+        font-size: 2.5rem;
     }
 }
