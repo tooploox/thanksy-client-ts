@@ -7,11 +7,8 @@ import { bind } from "../utils/bem"
 import "./NewThx.scss"
 
 const { Block, Element } = bind("NewThx")
-type Props = { thx: Thx }
 
-// const audio = new Audio(cheer)
-
-export const NewThx: React.SFC<Props> = ({ thx }) => (
+export const NewThx: React.SFC<{ thx: Thx }> = ({ thx }) => (
     <Block>
         <Element name="ContentLimiter">
             <h2>{thx.giver.real_name.replace(/ .*/, "")} just sent a new Thanks!</h2>

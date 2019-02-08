@@ -48,8 +48,16 @@ const clearNotificationCmd = (id: string) =>
 const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9500)), { successActionCreator: actions.updateLastThxId })
 
-const cheer: HTMLAudioElement = new Audio("data:audio/mp3;base64, " + cheerBase64)
-const playCheersAudioCmd = () => Cmd.run(() => cheer.play(), { successActionCreator: () => ({ type: "audioplayed" }) })
+const cheerSound = new Audio(cheerBase64)
+const NO_SOUND = window.location.toString().indexOf("localhost") !== -1
+const playCheersAudioCmd = () =>
+    Cmd.run(
+        async () => {
+            if (NO_SOUND) throw new Error("NO_SOUND_SET")
+            cheerSound.play()
+        },
+        { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
+    )
 
 const AppNotification = (text: string): AppNotification => ({ text, notificationId: new Date().getTime().toString() })
 
@@ -104,6 +112,6 @@ export const getStore = () => {
     )
     _store.dispatch(actions.updateThxList())
 
-    setInterval(() => _store.dispatch(actions.updateThxList()), 5000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 15000)
     return _store
 }
