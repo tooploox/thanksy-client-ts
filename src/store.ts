@@ -4,6 +4,7 @@ import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
 import { createAction, extend } from "./utils/redux"
 import { loadFeed } from "./api"
+import { cheerBase64 } from "./audio"
 
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
@@ -34,7 +35,7 @@ const loadFeedCmd = () =>
         failActionCreator: actions.setThxListFailed
     })
 
-export const splitThxList = (ts: Thx[], lastThxId: number): Lists => ({
+export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
     thxList: (lastThxId === -1 ? ts : ts.filter(v => v.id <= lastThxId)).sort((l, r) => r.id - l.id),
     recentThxList: (lastThxId === -1 ? [] : ts.filter(v => v.id > lastThxId)).sort((l, r) => l.id - r.id),
     // TESTING HACK: to always display last thx as freshone
@@ -45,7 +46,10 @@ const clearNotificationCmd = (id: string) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 7500)), { successActionCreator: actions.clearNotification })
 
 const updateLastThxIdCmd = (id: number) =>
-    Cmd.run(() => new Promise(r => setTimeout(() => r(id), 7500)), { successActionCreator: actions.updateLastThxId })
+    Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9500)), { successActionCreator: actions.updateLastThxId })
+
+const cheer: HTMLAudioElement = new Audio("data:audio/mp3;base64, " + cheerBase64)
+const playCheersAudioCmd = () => Cmd.run(() => cheer.play(), { successActionCreator: () => ({ type: "audioplayed" }) })
 
 const AppNotification = (text: string): AppNotification => ({ text, notificationId: new Date().getTime().toString() })
 
@@ -57,8 +61,10 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
             return ext({ status: "Loading" }, loadFeedCmd())
 
         case "setThxList": {
-            const delta = splitThxList(action.payload, state.lastThxId)
-            return delta.recentThxList.length ? ext(delta, updateLastThxIdCmd(delta.recentThxList[0].id)) : ext(delta)
+            const delta = splitThxLists(action.payload, state.lastThxId)
+            return delta.recentThxList.length
+                ? ext(delta, Cmd.list([updateLastThxIdCmd(delta.recentThxList[0].id), playCheersAudioCmd()]))
+                : ext(delta)
         }
 
         case "setThxListFailed": {
@@ -67,7 +73,7 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
         }
 
         case "updateLastThxId":
-            return ext(splitThxList([...state.thxList, ...state.recentThxList], action.payload))
+            return ext(splitThxLists([...state.thxList, ...state.recentThxList], action.payload))
 
         case "clearNotification": {
             const notifications = state.notifications.filter(({ notificationId }) => notificationId !== action.payload)
@@ -98,6 +104,6 @@ export const getStore = () => {
     )
     _store.dispatch(actions.updateThxList())
 
-    setInterval(() => _store.dispatch(actions.updateThxList()), 15000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 5000)
     return _store
 }
