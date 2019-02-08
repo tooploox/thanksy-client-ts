@@ -10,6 +10,7 @@ export const MainPlain: React.SFC<AppState> = p => (
     <>
         <ThxList thxList={p.thxList} />
         <Clock />
+        <div className="Version">Thanksy 2.0</div>
         <Toasts backgroundTask notifications={{}} />
     </>
 )

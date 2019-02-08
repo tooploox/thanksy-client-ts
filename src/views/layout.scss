@@ -33,3 +33,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #b30000;
 }
+
+.Version {
+    position: fixed;
+    right: 3rem;
+    bottom: 3rem;
+    font-size: 2.5rem;
+    opacity: .5;
+}
