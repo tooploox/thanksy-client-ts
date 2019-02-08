@@ -19,7 +19,7 @@ export class Clock extends React.Component<{}, { time: string }> {
 
     private getTime = () => {
         const d = new Date()
-        const time = `${d.getHours()}:${d.getMinutes()}:${pad(d.getSeconds(), 2)}`
+        const time = `${d.getHours()}:${pad(d.getMinutes(), 2)}:${pad(d.getSeconds(), 2)}`
         return { time }
     }
 }
