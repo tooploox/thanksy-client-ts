@@ -42,19 +42,19 @@ export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
     lastThxId: lastThxId === -1 ? (ts && ts.length > 1 ? ts[1].id : -1) : lastThxId
 })
 
-const clearNotificationCmd = (id: string) =>
+export const clearNotificationCmd = (id: string) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 7500)), { successActionCreator: actions.clearNotification })
 
-const updateLastThxIdCmd = (id: number) =>
+export const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9500)), { successActionCreator: actions.updateLastThxId })
 
-const cheerSound = new Audio(cheerBase64)
+export const cheerSound = new Audio(cheerBase64)
 const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
             if (isLocalHost) throw new Error("NO_SOUND_SET")
-            cheerSound.play()
+            await cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
     )
@@ -106,7 +106,7 @@ export const getStore = () => {
         initialState as any,
         compose(
             install(),
-            isLocalHost ? devTools() : f => f,
+            devTools(),
             applyMiddleware(routerMiddleware(getHistory()))
         )
     )

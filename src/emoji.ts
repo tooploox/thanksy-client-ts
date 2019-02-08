@@ -47,9 +47,16 @@ const emojiUrl = (name: string) => `https://twemoji.maxcdn.com/2/72x72/${name}.p
 const extEmoji = ({ caption }: Emoji, name: string) =>
     Emoji(getter(emojiByName[caption], "char") || caption, emojiUrl(name))
 
-const setEmojiUrl = async (c: Emoji): Promise<TextChunk> => {
+const setEmojiUrl = async (c: Emoji) => {
     if (c.type !== "emoji") return c
-    return new Promise(res => twemoji.parse(replaceEmoji(c.caption), (name: string) => res(extEmoji(c, name))))
+    const caption = replaceEmoji(c.caption)
+    if (c.caption === caption) return new Promise<TextChunk>(res => res(c))
+    return new Promise(res =>
+        twemoji.parse(caption, {
+            callback: (name: string) => res(extEmoji(c, name)),
+            onerror: () => res(c)
+        })
+    )
 }
 
 export const setEmojiUrls = async (thxs: Thx[]) =>
