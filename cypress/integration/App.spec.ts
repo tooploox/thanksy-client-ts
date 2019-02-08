@@ -3,7 +3,7 @@
 
 describe("App", () => {
     it.skip("cy.get() - query DOM elements", () => {
-        cy.visit("http://localhost:4000")
+        cy.visit("http://localhost:4004")
         cy.get("#app .Title").contains("Route")
     })
 })

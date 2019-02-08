@@ -1,3 +1,4 @@
+type HTTPMethods = "GET" | "POST" | "PUT"
 export const get = <T>(url: string, data: any = null) => request<T>(url, data, null, "GET")
 export const post = <T>(url: string, data: any) => request<T>(url, data, null, "POST")
 export const put = <T>(url: string, data: any) => request<T>(url, data, null, "PUT")
@@ -16,7 +17,12 @@ export const formatParams = (params: any) => {
     return "?" + keys.map(key => key + "=" + encodeURIComponent(params[key])).join("&")
 }
 
-export function request<T>(url: string, data: any = null, bearer: string | null = null, method = "POST"): Promise<T> {
+export function request<T>(
+    url: string,
+    data: any = null,
+    bearer: string | null = null,
+    method: HTTPMethods = "POST"
+): Promise<T> {
     return new Promise<T>((resolve, reject) => {
         let resolved = false
         const client = new XMLHttpRequest()

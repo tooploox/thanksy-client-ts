@@ -64,13 +64,12 @@ type AppState = {
     status: AppStatus
     thxList: Thx[]
     recentThxList: Thx[]
-    error: Error | null
+    notifications: SMap<AppNotification>
 }
 
 type AppNotificationType = "Info" | "Error"
 
 interface AppNotification {
     text: string
-    actionText?: string
     type: AppNotificationType
 }

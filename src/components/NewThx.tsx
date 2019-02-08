@@ -11,6 +11,7 @@ type Props = {
     recentThanks: Thx
     newThanksVisible: boolean
 }
+
 // const audio = new Audio(cheer)
 
 export const NewThx: React.SFC<Props> = ({ recentThanks }) => {

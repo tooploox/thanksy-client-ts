@@ -13,12 +13,10 @@ export interface ToastProps extends AppNotification {
     onClick?: F0
 }
 
-const Toast: React.SFC<ToastProps> = ({ children, text, actionText, onClick, type }) => (
-    <Block modifiers={{ [type]: true }} onClick={_ => !actionText && call(onClick)}>
+const Toast: React.SFC<ToastProps> = ({ children, text, onClick, type }) => (
+    <Block modifiers={{ [type]: true }} onClick={_ => call(onClick)}>
         <Element name="Content">{children || text}</Element>
-        <Element name={actionText ? "Action" : "Close"} onClick={onClick}>
-            {actionText}
-        </Element>
+        <Element name="Close" onClick={onClick} />
     </Block>
 )
 

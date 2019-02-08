@@ -35,8 +35,7 @@ describe("<TextChunks>", () => {
 
     it("Renders all given chunks", () => {
         const wrapper = mount(<TextChunks chunks={chunks} />)
-        const cs = wrapper.children()
-
+        const cs = wrapper.children().childAt(0)
         chunks.forEach((value, i) => expect(cs.childAt(i).props()).toEqual({ value }))
 
         const marks = cs.find("mark")

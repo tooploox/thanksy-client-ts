@@ -8,7 +8,7 @@ import { loadFeed } from "./api"
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
 export type Actions = ReturnType<typeof actions[keyof typeof actions]>
-export const initialAppState: AppState = { thxList: [], recentThxList: [], error: null, status: "Loading" }
+export const initialAppState: AppState = { thxList: [], recentThxList: [], notifications: {}, status: "Loading" }
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {
@@ -34,8 +34,11 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
         case "setThxList":
             return ext({ thxList: action.payload })
 
-        case "setThxListFailed":
-            return ext({ error: action.payload })
+        case "setThxListFailed": {
+            const notification: AppNotification = { text: action.payload.message, type: "Error" }
+            const id = new Date().getTime().toString()
+            return ext({ notifications: { ...state.notifications, [id]: notification } })
+        }
     }
     return state
 }

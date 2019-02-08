@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+@import "../components/LayoutOptions.scss";
 html {
     font-size: 1vh;
     margin: 0;
@@ -8,10 +9,8 @@ html {
 body {
     background: #D7EEF6;
     font-family: 'Poppins', Arial, Helvetica Neue, Helvetica, sans-serif;
-    overflow-y: hidden;
-    overflow-x: auto;
     margin: 0;
-    color: #78a5b5;
+    color: $themeColor;
     padding: 0;
 }
 
@@ -26,7 +25,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #79a5b4;
+    background: $themeColor;
     border-radius: 3px;
 }
 
