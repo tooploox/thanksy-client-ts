@@ -60,10 +60,9 @@ type RootState = {
 
 type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxView" | "ThxListView" | "Offline"
 
-type AppState = {
+type Lists = { thxList: Thx[]; recentThxList: Thx[] }
+type AppState = Lists & {
     status: AppStatus
-    thxList: Thx[]
-    recentThxList: Thx[]
     notifications: SMap<AppNotification>
 }
 

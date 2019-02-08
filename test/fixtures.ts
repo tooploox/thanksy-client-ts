@@ -19,3 +19,15 @@ export const serverThxFixture = fixtureFactory<ServerThx>({
     text: "@offhub for great iOS experience :)",
     created_at: "2019-02-06T11:18:18.321Z"
 })
+
+export const thxFixture = fixtureFactory<Thx>({
+    giver: userFixture({ name: "giver" }),
+    receivers: [userFixture({ name: "receiver 1" })],
+    id: 0,
+    loveCount: 1,
+    confettiCount: 2,
+    clapCount: 3,
+    wowCount: 4,
+    chunks: [{ caption: "test", type: "text" }],
+    createdAt: "Today at 10:55"
+})

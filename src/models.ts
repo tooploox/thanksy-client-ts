@@ -39,6 +39,7 @@ export const validateThx = (data: any): Result<Thx, string> => {
         id: t.id,
         clapCount: t.clap_count,
         confettiCount: t.confetti_count,
+
         wowCount: t.wow_count,
         loveCount: t.love_count,
         createdAt

@@ -8,7 +8,12 @@ import { loadFeed } from "./api"
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
 export type Actions = ReturnType<typeof actions[keyof typeof actions]>
-export const initialAppState: AppState = { thxList: [], recentThxList: [], notifications: {}, status: "Loading" }
+export const initialAppState: AppState = {
+    thxList: [],
+    recentThxList: [],
+    notifications: {},
+    status: "Loading"
+}
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {
@@ -23,6 +28,11 @@ const loadFeedCmd = () =>
         successActionCreator: actions.setThxList,
         failActionCreator: actions.setThxListFailed
     })
+
+export const splitThxList = (ts: Thx[], lastId: number): Lists => ({
+    thxList: ts.filter(v => v.id <= lastId),
+    recentThxList: ts.filter(v => v.id > lastId)
+})
 
 export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) => {
     if (!state) return initialState.app
