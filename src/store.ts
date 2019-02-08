@@ -11,7 +11,8 @@ export type Actions = ReturnType<typeof actions[keyof typeof actions]>
 export const initialAppState: AppState = {
     thxList: [],
     recentThxList: [],
-    notifications: {},
+    notifications: [],
+    lastThxId: 0,
     status: "Loading"
 }
 export const initialState: RootState = { app: initialAppState } as any
@@ -20,6 +21,7 @@ export const actions = {
     updateThxList: () => createAction("updateThxList"),
     setThxList: (thxList: Thx[]) => createAction("setThxList", thxList),
     setThxListFailed: (error: Error) => createAction("setThxListFailed", error),
+    clearNotification: (id: string) => createAction("clearNotification", id),
     setStatus: (status: AppStatus) => createAction("setStatus", status)
 }
 
@@ -33,7 +35,14 @@ export const splitThxList = (ts: Thx[], lastId: number): Lists => ({
     thxList: ts.filter(v => v.id <= lastId),
     recentThxList: ts.filter(v => v.id > lastId)
 })
+const getMaxThxId = (ts: Thx[]) => (ts && ts.length > 1 ? ts[1].id : 0)
+const getId = () => new Date().toString()
+export const clearNotificationCmd = (id: string) =>
+    Cmd.run(() => new Promise(resolve => setTimeout(() => resolve(id), 6000)), {
+        successActionCreator: actions.clearNotification
+    })
 
+const AppNotification = (text: string): AppNotification => ({ text, notificationId: getId(), type: "Error" })
 export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) => {
     if (!state) return initialState.app
     const ext = extend(state)
@@ -42,13 +51,20 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
             return ext({ status: "Loading" }, loadFeedCmd())
 
         case "setThxList":
-            return ext({ thxList: action.payload })
+            return state.lastThxId === 0
+                ? ext({ thxList: action.payload, lastThxId: getMaxThxId(action.payload) })
+                : ext(splitThxList(action.payload, state.lastThxId))
 
         case "setThxListFailed": {
-            const notification: AppNotification = { text: action.payload.message, type: "Error" }
-            const id = new Date().getTime().toString()
-            return ext({ notifications: { ...state.notifications, [id]: notification } })
+            const notification = AppNotification(action.payload.message)
+            const notifications = [...state.notifications, notification]
+            return ext({ notifications }, clearNotificationCmd(notification.notificationId))
         }
+
+        case "clearNotification":
+            return ext({
+                notifications: state.notifications.filter(({ notificationId }) => notificationId !== action.payload)
+            })
     }
     return state
 }

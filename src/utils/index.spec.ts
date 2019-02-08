@@ -12,10 +12,10 @@ import {
     call,
     iterateObject,
     toArray,
-    mapObject,
     isMobile,
     flatten,
-    pad
+    pad,
+    filterMap
 } from "."
 
 // import { check, integer, array } from "kitimat-jest"
@@ -25,18 +25,11 @@ describe("pad()", () => {
     it("gives --12 for 12 and -", () => expect(pad(12, 4, "-")).toEqual("--12"))
 })
 
-describe("mapObject", () => {
-    it("maps object to array of keys with no filter", () =>
-        expect(mapObject({ k1: "foo", k2: "bar" }, (_, key) => key)).toEqual(["k1", "k2"]))
-
-    it("maps object to array of values with no filter", () =>
-        expect(mapObject({ k1: "foo", k2: "bar" }, v => v)).toEqual(["foo", "bar"]))
-
-    it("maps object to array of values with filter", () =>
-        expect(mapObject({ k1: "foo", k2: "bar" }, v => v, v => v !== "bar")).toEqual(["foo"]))
-
-    it("maps object to array of values with filter 2", () =>
-        expect(mapObject({ k1: "foo", k2: "bar" }, v => v, _ => false)).toEqual([]))
+describe("filterMap()", () => {
+    const o: SMap<string> = { "1": "foo", "2": "bar" }
+    it("gives same map when condition is always valid", () => expect(filterMap(o, () => true)).toEqual(o))
+    it("gives empty map when condition is never valid", () => expect(filterMap(o, () => false)).toEqual({}))
+    it("gives filtred map", () => expect(filterMap(o, k => k === "1")).toEqual({ "1": "foo" }))
 })
 
 describe("repeat()", () => {

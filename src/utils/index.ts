@@ -9,6 +9,9 @@ export const isValid = (pred: boolean | (() => boolean)) => (isFunction(pred) ? 
 export const toByte = (value: number, min: number, max: number) => toMinMax(value, min, max)
 export const toMinMax = (value: number, min: number, max: number) => (value < min ? min : value > max ? max : value)
 
+export const filterMap = <T>(vs: SMap<T>, cond: (key: string) => boolean): SMap<T> =>
+    remap(vs, (_, key) => key, (v, key) => (cond(key) ? v : null), true) as any
+
 export const remap = <T, S = any>(
     vs: SMap<T>,
     getKey: (t: T, key: string, index: number) => string,
@@ -21,20 +24,6 @@ export const remap = <T, S = any>(
         if (!skipNullValue || value !== null) res[getKey(vs[k], k, index)] = value
     })
     return res
-}
-
-export const mapObject = <T, T2 = T>(
-    map: SMap<T>,
-    toValue: (t: T, key: keyof SMap<T>, index?: number) => T2,
-    condition: (t: T, key?: keyof T) => boolean = () => true
-): T2[] => {
-    const result: T2[] = []
-    const f = (field: string, index: number) => {
-        const v = map[field as any]
-        if (condition(v)) result.push(toValue(v, field as any, index))
-    }
-    Object.keys(map || {}).forEach(f)
-    return result
 }
 
 export const toArray = <T, T2>(map: SMap<T>, toValue: (t: T, key: keyof T, index: number) => T2) => {

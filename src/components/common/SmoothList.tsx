@@ -5,7 +5,8 @@ import { call } from "../../utils"
 
 export interface SmoothListStateProps<T> {
     maxHeight: number
-    items: SMap<T>
+    items: T[]
+    keyName: keyof T
 }
 
 export interface SmoothListActionProps<T> {
@@ -16,10 +17,10 @@ const DELTA = 0.6
 
 export function SmoothList<T>(props: SmoothListStateProps<T> & SmoothListActionProps<T>): React.ReactElement<any> {
     return (
-        <TransitionMotion {...transitionMotionProps(props.items, props.maxHeight)}>
+        <TransitionMotion {...transitionMotionProps(props.items, props.keyName, props.maxHeight)}>
             {styles => (
                 <>
-                    {styles.map(({ key, style, data }) => {
+                    {styles.map(({ key, style, data }: { key: string; style: any; data: T }) => {
                         if (style.height !== 0 && style.height < DELTA && style.height > -DELTA) style.height = 0
                         else if (
                             style.height !== props.maxHeight &&

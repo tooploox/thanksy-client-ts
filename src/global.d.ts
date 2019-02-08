@@ -63,12 +63,14 @@ type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxVie
 type Lists = { thxList: Thx[]; recentThxList: Thx[] }
 type AppState = Lists & {
     status: AppStatus
-    notifications: SMap<AppNotification>
+    lastThxId: number
+    notifications: AppNotification[]
 }
 
 type AppNotificationType = "Info" | "Error"
 
 interface AppNotification {
     text: string
+    notificationId: string
     type: AppNotificationType
 }

@@ -153,9 +153,6 @@ declare function mergeChildReducers<S, A extends Action = AnyAction>(
 ): Loop<S, A>
 
 declare function liftState<S, A extends Action>(state: S | Loop<S, A>): Loop<S, A>
-
 declare function isLoop(test: any): boolean
-
 declare function getModel<S>(loop: S | Loop<S, AnyAction>): S
-
 declare function getCmd<A extends Action>(a: any): CmdType<A> | null
