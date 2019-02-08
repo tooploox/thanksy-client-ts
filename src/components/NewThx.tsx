@@ -7,22 +7,17 @@ import { bind } from "../utils/bem"
 import "./NewThx.scss"
 
 const { Block, Element } = bind("NewThx")
-type Props = {
-    recentThanks: Thx
-    newThanksVisible: boolean
-}
+type Props = { thx: Thx }
 
 // const audio = new Audio(cheer)
 
-export const NewThx: React.SFC<Props> = ({ recentThanks }) => {
-    return (
-        <Block>
-            <Element name="ContentLimiter">
-                <h2>{recentThanks.giver.real_name.replace(/ .*/, "")} just sent a new Thanks!</h2>
-                <TextChunks centred light chunks={recentThanks.chunks} />
-                <Avatars users={recentThanks.receivers} maxCount={11} />
-                <ScrollLock />
-            </Element>
-        </Block>
-    )
-}
+export const NewThx: React.SFC<Props> = ({ thx }) => (
+    <Block>
+        <Element name="ContentLimiter">
+            <h2>{thx.giver.real_name.replace(/ .*/, "")} just sent a new Thanks!</h2>
+            <TextChunks centred light chunks={thx.chunks} />
+            <Avatars users={thx.receivers} maxCount={11} />
+            <ScrollLock />
+        </Element>
+    </Block>
+)

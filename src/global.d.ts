@@ -1,7 +1,9 @@
 /// <reference path="./utils/redux.d.ts" />
+
 declare module "*.scss"
 declare module "*.png"
 declare module "*.mp3"
+
 type Named = { id: string; name: string }
 type TMap<TKey extends string, TValue> = { [K in TKey]: TValue }
 type SMap<TValue> = TMap<string, TValue>
@@ -13,8 +15,10 @@ type CastedSubtype<T, S> = { [P in keyof T]?: S }
 type F0<RT = void> = () => RT
 type F1<T, RT = void> = (arg: T) => RT
 type F2<T, T2, RT = void> = (arg1: T, arg2: T2) => RT
+
 type Nothing = { type: "nothing" }
 type Maybe<T> = { type: "some"; value: T } | Nothing
+
 type Ok<T> = { type: "Ok"; value: T }
 type Err<T> = { type: "Err"; error: T }
 type Result<Value, Error> = Ok<Value> | Err<Error>
@@ -49,24 +53,15 @@ type Thx = {
     wowCount: number
     chunks: TextChunk[]
 }
+
 type Emoji = { type: "emoji"; url: string; caption: string }
 type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption: string } | Emoji
 declare var require: any
 
-type RootState = {
-    app: AppState
-    reducer: any
-}
+type RootState = { app: AppState; reducer: any }
 
 type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxView" | "ThxListView" | "Offline"
 
 type Lists = { thxList: Thx[]; recentThxList: Thx[]; lastThxId: number }
-type AppState = Lists & {
-    status: AppStatus
-    notifications: AppNotification[]
-}
-
-interface AppNotification {
-    text: string
-    notificationId: string
-}
+type AppState = Lists & { status: AppStatus; notifications: AppNotification[] }
+type AppNotification = { text: string; notificationId: string }

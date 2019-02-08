@@ -8,6 +8,7 @@ import { loadFeed } from "./api"
 export type MapState<TS, TO = any> = (state: RootState, props: TO) => TS
 export type MapDispatch<TA, TO = any> = (dispatch: Dispatch<any>, props: TO) => TA
 export type Actions = ReturnType<typeof actions[keyof typeof actions]>
+
 export const initialAppState: AppState = {
     thxList: [],
     recentThxList: [],
@@ -15,6 +16,7 @@ export const initialAppState: AppState = {
     lastThxId: -1,
     status: "Loading"
 }
+
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {
@@ -22,6 +24,7 @@ export const actions = {
     setThxList: (thxList: Thx[]) => createAction("setThxList", thxList),
     setThxListFailed: (error: Error) => createAction("setThxListFailed", error),
     clearNotification: (id: string) => createAction("clearNotification", id),
+    updateLastThxId: (id: number) => createAction("updateLastThxId", id),
     setStatus: (status: AppStatus) => createAction("setStatus", status)
 }
 
@@ -32,18 +35,20 @@ const loadFeedCmd = () =>
     })
 
 export const splitThxList = (ts: Thx[], lastThxId: number): Lists => ({
-    thxList: ts.filter(v => v.id <= lastThxId),
-    recentThxList: ts.filter(v => v.id > lastThxId),
+    thxList: (lastThxId === -1 ? ts : ts.filter(v => v.id <= lastThxId)).sort((l, r) => r.id - l.id),
+    recentThxList: (lastThxId === -1 ? [] : ts.filter(v => v.id > lastThxId)).sort((l, r) => l.id - r.id),
     // TESTING HACK: to always display last thx as freshone
     lastThxId: lastThxId === -1 ? (ts && ts.length > 1 ? ts[1].id : -1) : lastThxId
 })
 
-export const clearNotificationCmd = (id: string) =>
-    Cmd.run(() => new Promise(resolve => setTimeout(() => resolve(id), 6000)), {
-        successActionCreator: actions.clearNotification
-    })
+const clearNotificationCmd = (id: string) =>
+    Cmd.run(() => new Promise(r => setTimeout(() => r(id), 7500)), { successActionCreator: actions.clearNotification })
 
-const AppNotification = (text: string): AppNotification => ({ text, notificationId: new Date().toString() })
+const updateLastThxIdCmd = (id: number) =>
+    Cmd.run(() => new Promise(r => setTimeout(() => r(id), 7500)), { successActionCreator: actions.updateLastThxId })
+
+const AppNotification = (text: string): AppNotification => ({ text, notificationId: new Date().getTime().toString() })
+
 export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) => {
     if (!state) return initialState.app
     const ext = extend(state)
@@ -51,18 +56,23 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
         case "updateThxList":
             return ext({ status: "Loading" }, loadFeedCmd())
 
-        case "setThxList":
-            return ext(splitThxList(action.payload, state.lastThxId))
+        case "setThxList": {
+            const delta = splitThxList(action.payload, state.lastThxId)
+            return delta.recentThxList.length ? ext(delta, updateLastThxIdCmd(delta.recentThxList[0].id)) : ext(delta)
+        }
 
         case "setThxListFailed": {
             const notifications = [AppNotification(action.payload.message), ...state.notifications]
             return ext({ notifications }, clearNotificationCmd(notifications[0].notificationId))
         }
 
-        case "clearNotification":
-            return ext({
-                notifications: state.notifications.filter(({ notificationId }) => notificationId !== action.payload)
-            })
+        case "updateLastThxId":
+            return ext(splitThxList([...state.thxList, ...state.recentThxList], action.payload))
+
+        case "clearNotification": {
+            const notifications = state.notifications.filter(({ notificationId }) => notificationId !== action.payload)
+            return ext({ notifications })
+        }
     }
     return state
 }

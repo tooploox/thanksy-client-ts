@@ -31,12 +31,19 @@ describe("counter state", () => {
         const t3 = thxFixture({ id: 3 })
 
         it("Gives only thxList when all ids are <= than lastThxId", () =>
-            expect(splitThxList([t1, t2], 2)).toEqual({ recentThxList: [], thxList: [t1, t2], lastThxId: 2 }))
+            expect(splitThxList([t1, t2], 2)).toEqual({ recentThxList: [], thxList: [t2, t1], lastThxId: 2 }))
 
         it("Gives only recentThxList when all ids are > than lastThxId", () =>
             expect(splitThxList([t2, t3], 1)).toEqual({ recentThxList: [t2, t3], thxList: [], lastThxId: 1 }))
 
         it("Gives both list filtered", () =>
-            expect(splitThxList([t1, t2, t3], 2)).toEqual({ recentThxList: [t3], thxList: [t1, t2], lastThxId: 2 }))
+            expect(splitThxList([t1, t2, t3], 2)).toEqual({ recentThxList: [t3], thxList: [t2, t1], lastThxId: 2 }))
+
+        // TESTING HACK: Set `lastThxId:3` in next test when `splitThxList` TESTING HACK won't be needed
+        it("Gives everything as thxList when thxListId is not set (-1)", () =>
+            expect(splitThxList([t1, t2, t3], -1)).toEqual({ recentThxList: [], thxList: [t3, t2, t1], lastThxId: 2 }))
+
+        it("Gives sorted recentThxList", () =>
+            expect(splitThxList([t2, t1, t3], 0)).toEqual({ recentThxList: [t1, t2, t3], thxList: [], lastThxId: 0 }))
     })
 })
