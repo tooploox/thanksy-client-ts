@@ -1,4 +1,5 @@
 import * as React from "react"
+import { bind } from "../utils/bem"
 import "./TextChunks.scss"
 
 const Emoji: React.SFC<{ src: string; alt: string }> = p => {
@@ -19,10 +20,11 @@ export const TextChunk: React.SFC<{ value: TextChunk }> = ({ value }) => {
     }
 }
 
-export const TextChunks: React.SFC<{ chunks: TextChunk[] }> = p => (
-    <div className="TextChunks">
+const { Block } = bind("TextChunks")
+export const TextChunks: React.SFC<{ chunks: TextChunk[]; centred?: boolean; light?: boolean }> = p => (
+    <Block modifiers={{ centred: p.centred || false, light: p.light || false }}>
         {p.chunks.map((value, key) => (
             <TextChunk key={key} value={value} />
         ))}
-    </div>
+    </Block>
 )

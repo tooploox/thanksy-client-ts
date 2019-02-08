@@ -59,7 +59,7 @@ export const getStore = () => {
             applyMiddleware(routerMiddleware(getHistory()))
         )
     )
-    // _store.dispatch(actions.updateThxList())
+    _store.dispatch(actions.updateThxList())
 
     setInterval(() => _store.dispatch(actions.updateThxList()), 15000)
     return _store

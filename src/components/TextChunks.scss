@@ -10,6 +10,18 @@
     font-weight: 400;
     letter-spacing: 0.3px;
     color: black;
+    &--light {
+        color: white;
+    }
+    &--centred {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    span {
+        padding-left: 1rem;
+    }
     img {
         width: 3rem;
         height: 3rem;

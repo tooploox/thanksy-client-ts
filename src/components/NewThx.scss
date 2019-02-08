@@ -1,28 +1,23 @@
-.emoji2 {
-    background-size: 20px 20px;
-    background-repeat: no-repeat;
-}
-
-.newThanks {
-    position: fixed;
+.NewThx {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__ContentLimiter {
+        max-width: 60vw;
+        max-height: 80vh;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    h2 {
+        font-size: 3rem;
+        text-align: center;
+    }
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
-    top: 0;
-    left: 0;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-}
-
-.emoji img {
-    width: 2.5rem;
-}
-
-.newThanks h2 {
-    font-size: 0.8em;
+    background: url("../assets/confetti.svg") bottom center no-repeat;
 }
 
 .newThanks .container {
@@ -50,8 +45,4 @@
     left: 50%;
     transform: translateX(-50%);
     width: 53em;
-}
-
-.animatedTransition {
-    transition: all 1s ease-in-out;
 }
