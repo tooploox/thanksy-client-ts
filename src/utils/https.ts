@@ -3,18 +3,14 @@ export const get = <T>(url: string, data: any = null) => request<T>(url, data, n
 export const post = <T>(url: string, data: any) => request<T>(url, data, null, "POST")
 export const put = <T>(url: string, data: any) => request<T>(url, data, null, "PUT")
 
-export const errors = {
-    serverError: "serverError",
-    unprocessableEnity: "unprocessableEntity",
-    unprocessableResponse: "unprocessableResponse"
-}
+type HTTPErrorType = "ServerError" | "UnprocessableEntity" | "UnprocessableResponse"
 
-const httpsError = (name: keyof typeof errors, message?: string) => ({ name, message })
+export type HTTPError = { name: HTTPErrorType; message: string; status: number }
+const HTTPError = (name: HTTPErrorType, message: string, status: number): HTTPError => ({ name, message, status })
 
 export const formatParams = (params: any) => {
     const keys = Object.keys(params)
-    if (!keys.length) return ""
-    return "?" + keys.map(key => key + "=" + encodeURIComponent(params[key])).join("&")
+    return keys.length ? `?${keys.map(key => key + "=" + encodeURIComponent(params[key])).join("&")}` : ""
 }
 
 export function request<T>(
@@ -29,21 +25,21 @@ export function request<T>(
 
         client.onreadystatechange = () => {
             if (resolved || client.readyState !== 4) return
-
             resolved = true
             try {
                 const res: T = JSON.parse(client.responseText)
 
                 if (client.status === 422) {
-                    reject(httpsError("unprocessableEnity", ""))
+                    reject(HTTPError("UnprocessableEntity", "", 422))
+                    return
                 }
                 if (client.status >= 300) {
-                    reject(httpsError("serverError", `Bad status: ${url} -> ${client.status} (${client.responseText})`))
+                    reject(HTTPError("ServerError", `Bad status: ${client.responseText}`, client.status))
                     return
                 }
                 resolve(res)
             } catch (error) {
-                reject(httpsError("unprocessableResponse", ""))
+                reject(HTTPError("UnprocessableResponse", client.responseText, client.status))
             }
         }
 

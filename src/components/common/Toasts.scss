@@ -21,7 +21,6 @@
         cursor: pointer;
     }
     &__Close {
-        // background: url(../../assets/remove.svg) no-repeat scroll;
         width: 14px;
         height: 14px;
         top: 21px;
@@ -35,16 +34,21 @@
     }
 }
 
+#toasts {
+    z-index: 1009;
+}
+
 .Toasts {
     position: fixed;
-    right: 30px;
-    bottom: 0px;
+    right: 2rem;
+    bottom: 2rem;
+    z-index: 1009;
 }
 
 .BackgroundTask {
     position: fixed;
-    top: 30px;
-    right: 35px;
+    top: 7rem;
+    right: 2rem;
     opacity: 0;
     transition: 200ms opacity ease-in-out;
 }

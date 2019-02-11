@@ -8,11 +8,6 @@ import { bind } from "../utils/bem"
 import "./NewThx.scss"
 
 const { Block, Element } = bind("NewThx")
-export const Confetti: React.SFC = () => (
-    <Element name="ConfettiContainer">
-        <div ref={ref => ConfettiController(ref, {})} />
-    </Element>
-)
 
 export const NewThx: React.SFC<{ thx: Thx }> = ({ thx }) => (
     <Block>
@@ -20,7 +15,9 @@ export const NewThx: React.SFC<{ thx: Thx }> = ({ thx }) => (
             <h2>{thx.giver.real_name.replace(/ .*/, "")} just sent a new Thanks!</h2>
             <TextChunks centred light chunks={thx.chunks} />
             <Avatars users={thx.receivers} maxCount={11} />
-            <Confetti />
+            <Element name="ConfettiContainer">
+                <div ref={ref => setTimeout(() => ConfettiController(ref), 100)} />
+            </Element>
             <ScrollLock />
         </Element>
     </Block>

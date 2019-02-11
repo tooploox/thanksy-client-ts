@@ -5,6 +5,9 @@ import { parseText } from "./emoji"
 export const Err = <T>(error: T): Err<T> => ({ type: "Err", error })
 export const Ok = <T>(value: T): Ok<T> => ({ type: "Ok", value })
 
+export const Nothing = (): Nothing => ({ type: "nothing" })
+export const Just = <T>(value: T): Some<T> => ({ type: "some", value })
+
 export const validateThxList = (d: any): Result<Thx[], string> => {
     if (!isArray(d)) return Err("Invalid payload - array expected")
     const thxs = d.map(validateThx)
@@ -54,4 +57,10 @@ export const validateUser = (data: any): Result<User, string> => {
         return Err("Invalid data " + JSON.stringify(data))
     const value: User = { id: u.id, real_name: u.real_name, avatar_url: u.avatar_url, name: u.name }
     return Ok(value)
+}
+
+export const parseApiError = (data: any): Some<ApiState> => {
+    let value: ApiState = "NoResponse"
+    if (data === "InvalidToken") value = "InvalidToken"
+    return Just(value)
 }

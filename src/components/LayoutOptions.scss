@@ -3,3 +3,9 @@ $transition: 250ms all ease;
 $desktopContentWidth: 720px;
 $mobileContentMinWidth:335px;
 $mobileContentMaxWidth:375px;
+@mixin gradient-text($bg) {
+    background: $bg;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,90 @@
+@import "./LayoutOptions.scss";
+.Login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+    color: black;
+    &__Logo {
+        background: url("../assets/logo.svg") bottom center no-repeat;
+        width: 20rem;
+        height: 10rem;
+        background-size: 20rem 10rem;
+    }
+    &__ContentLimiter {
+        z-index: 1;
+        max-width: 60vw;
+        max-height: 80vh;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &__Blur {
+        background: url("../assets/bg.png") bottom center no-repeat rgb(255, 255, 255);
+        background-size: 100vw;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+    &__Mission {
+        font-size: 2.2rem;
+        font-weight: 500;
+        @include gradient-text(linear-gradient(to right,
+        #fb8bab,
+        #9c94e8 46%,
+        #68e1ef));
+    }
+    input {
+        box-sizing: border-box;
+        color: rgb(0, 0, 0);
+        width: 36rem;
+        border-radius: .4rem;
+        background-color: rgba(235, 235, 235, .5);
+        border: none;
+        font-weight: 500;
+        line-height: 5rem;
+        font-size: 1.7rem;
+        padding: 0 1rem;
+        text-align: center;
+        margin-top: 5rem;
+        letter-spacing: .5rem;
+    }
+    ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: rgba(0, 0, 0, .2);
+        letter-spacing: 0;
+        font-size: 1.4rem;
+    }
+    p {
+        font-size: 1.3rem;
+        text-align: center;
+        font-weight: 600;
+        max-width: 34rem;
+        margin-bottom: 4rem;
+        margin-top: 3rem;
+    }
+    button {
+        width: 36rem;
+        height: 5rem;
+        border-radius: .4rem;
+        background-image: linear-gradient(to right, #f2c250, #fe557d);
+        border: none;
+        color: white;
+        letter-spacing: .1rem;
+        font-size: 2rem;
+    }
+    &__Error {
+        padding-top: 2rem;
+        font-size: 1.4rem;
+        color: #fc6576;
+    }
+}

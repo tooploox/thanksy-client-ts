@@ -1,3 +1,5 @@
+// Typescript version of https://github.com/daniel-lundin/dom-confetti
+
 import { mapRepeat } from "./utils"
 
 const defaultConfig = {
@@ -15,8 +17,10 @@ const defaultConfig = {
 }
 
 export type ConfettiConfig = typeof defaultConfig
+type Physics = ReturnType<typeof randomPhysics>
+type Particle = { element: HTMLDivElement; physics: Physics }
 
-const createElement = (color: string, width: number, height: number, random: F0<number>) => {
+const createElement = (color: string, { width, height, random }: ConfettiConfig) => {
     const e = document.createElement("div")
     e.style.backgroundColor = color
     e.style.width = `${Math.floor((random() * 100) % width) + 1}px`
@@ -26,9 +30,9 @@ const createElement = (color: string, width: number, height: number, random: F0<
     return e
 }
 
-const createElements = (root: HTMLDivElement, { elementCount, width, height, colors, random }: ConfettiConfig) =>
-    mapRepeat(elementCount, index => {
-        const e = createElement(colors[index % colors.length], width, height, random)
+const createElements = (root: HTMLDivElement, config: ConfettiConfig) =>
+    mapRepeat(config.elementCount, index => {
+        const e = createElement(config.colors[index % config.colors.length], config)
         root.appendChild(e)
         return e
     })
@@ -50,9 +54,8 @@ const randomPhysics = ({ angle, spread, startVelocity, random }: ConfettiConfig)
         tiltAngleSpeed: 0.1 + random() * 0.3
     }
 }
-type Physics = ReturnType<typeof randomPhysics>
 
-const updateFetti = (fetti: Fetti, progress: number, dragFriction: number) => {
+const updateFetti = (fetti: Particle, progress: number, dragFriction: number) => {
     fetti.physics.x += Math.cos(fetti.physics.angle2D) * fetti.physics.velocity
     fetti.physics.y += Math.sin(fetti.physics.angle2D) * fetti.physics.velocity
     fetti.physics.z += Math.sin(fetti.physics.angle3D) * fetti.physics.velocity
@@ -71,17 +74,16 @@ const updateFetti = (fetti: Fetti, progress: number, dragFriction: number) => {
     fetti.element.style.opacity = (1 - progress).toString()
 }
 
-type Fetti = { element: HTMLDivElement; physics: Physics }
-const animate = (root: HTMLElement, fettis: Fetti[], { dragFriction, duration, delay }: ConfettiConfig) => {
+const animate = (root: HTMLElement, particles: Particle[], { dragFriction, duration, delay }: ConfettiConfig) => {
     let startTime: number
     const update = (time: number, res: F0) => {
         if (!startTime) startTime = time
         const elapsed = time - startTime
         const progress = startTime === time ? 0 : (time - startTime) / duration
-        fettis.slice(0, Math.ceil(elapsed / delay)).forEach(f => updateFetti(f, progress, dragFriction))
+        particles.slice(0, Math.ceil(elapsed / delay)).forEach(f => updateFetti(f, progress, dragFriction))
         if (time - startTime < duration) requestAnimationFrame(t => update(t, res))
         else {
-            fettis.filter(f => f.element.parentNode === root).forEach(f => root.removeChild(f.element))
+            particles.filter(f => f.element.parentNode === root).forEach(f => root.removeChild(f.element))
             res()
         }
     }
@@ -92,6 +94,9 @@ const animate = (root: HTMLElement, fettis: Fetti[], { dragFriction, duration, d
 export const ConfettiController = (root: HTMLDivElement | null, configDelta: Partial<ConfettiConfig> = {}) => {
     if (!root) return null
     const config = { ...defaultConfig, ...configDelta }
-    const fettis: Fetti[] = createElements(root, config).map(element => ({ element, physics: randomPhysics(config) }))
-    return animate(root, fettis, config)
+    const particles: Particle[] = createElements(root, config).map(element => ({
+        element,
+        physics: randomPhysics(config)
+    }))
+    return animate(root, particles, config)
 }

@@ -17,7 +17,8 @@ type F1<T, RT = void> = (arg: T) => RT
 type F2<T, T2, RT = void> = (arg1: T, arg2: T2) => RT
 
 type Nothing = { type: "nothing" }
-type Maybe<T> = { type: "some"; value: T } | Nothing
+type Some<T> = { type: "some"; value: T }
+type Maybe<T> = Some<T> | Nothing
 
 type Ok<T> = { type: "Ok"; value: T }
 type Err<T> = { type: "Err"; error: T }
@@ -60,5 +61,11 @@ type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption
 type RootState = { app: AppState; reducer: any }
 
 type Lists = { thxList: Thx[]; recentThxList: Thx[]; lastThxId: number }
-type AppState = Lists & { notifications: AppNotification[] }
+type ApiState = "TokenNotChecked" | "InvalidToken" | "NoResponse"
+type AppState = Lists & {
+    notifications: AppNotification[]
+    token: string
+    apiState: Maybe<ApiState>
+    isTokenFresh: boolean
+}
 type AppNotification = { text: string; notificationId: string }

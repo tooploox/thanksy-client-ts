@@ -1,10 +1,18 @@
 import { validateThxList } from "./models"
 import { setEmojiUrls } from "./emoji"
-import { request } from "./utils/https"
+import { request, HTTPError } from "./utils/https"
+
 const API_URI = process.env.API_URL
-export const loadFeed = async () => {
+
+export const loadFeed = async (bearer: string) => {
     const url = `${API_URI}/thanks/list`
-    const json = await request(url, null, "123456", "GET")
-    const res = await validateThxList(json)
-    return res.type === "Ok" ? setEmojiUrls(res.value.slice(0, 20)) : []
+    try {
+        const json = await request(url, null, bearer, "GET")
+        const res = await validateThxList(json)
+        return res.type === "Ok" ? setEmojiUrls(res.value.slice(0, 20)) : []
+    } catch (err) {
+        const { name } = err as HTTPError
+        if (name === "ServerError") throw new Error("InvalidToken" as ApiState)
+        throw new Error("NoResponse" as ApiState)
+    }
 }

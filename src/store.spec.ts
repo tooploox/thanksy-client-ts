@@ -8,10 +8,10 @@ describe("counter state", () => {
 
         describe("Notifications", () => {
             it("creates notification when setThxListFailed is dispatched", () => {
-                const action = actions.setThxListFailed(new Error("foo"))
+                const action = actions.updateThxListFail(new Error("foo"))
                 const rstate: AppState = (reducer(initialState.app, action) as any)[0]
                 expect(rstate.notifications.length).toEqual(1)
-                expect(rstate.notifications[0].text).toEqual("foo")
+                expect(rstate.notifications[0].text).toEqual("Server connection problem")
             })
 
             it("removes notification with `id` when clearNotification is dispatched", () => {
