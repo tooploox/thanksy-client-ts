@@ -13,7 +13,7 @@ export const MainPlain: React.SFC<AppState> = p => (
         <ThxList thxList={p.thxList} />
         <Clock />
         <div className="Version">Thanksy 2.0</div>
-        <Toasts backgroundTask notifications={p.notifications} />
+        <Toasts backgroundTask={false} notifications={p.notifications} />
         <ModalAnimated isOpened={p.recentThxList.length > 0}>
             {p.recentThxList.length > 0 && <NewThx thx={p.recentThxList[0]} />}
         </ModalAnimated>

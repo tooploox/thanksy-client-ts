@@ -18,31 +18,8 @@
     width: 100vw;
     height: 100vh;
     background: url("../assets/confetti.svg") bottom center no-repeat;
-}
-
-.newThanks .container {
-    width: 40em;
-    text-align: center;
-    font-size: 1em;
-    padding-bottom: 5em;
-}
-
-.newThanks .avatarsContainer {
-    margin-top: 2em;
-    margin-right: 2.5em;
-}
-
-.newThanks .avatarsContainer .avatar {
-    height: 3em;
-    width: 3em;
-    margin-right: -1.5em;
-    border: .2em solid white;
-}
-
-.newThanks .confetti {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 53em;
+    &__ConfettiContainer {
+        position: fixed;
+        bottom: 0;
+    }
 }

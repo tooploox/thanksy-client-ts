@@ -14,8 +14,7 @@ export const initialAppState: AppState = {
     thxList: [],
     recentThxList: [],
     notifications: [],
-    lastThxId: -1,
-    status: "Loading"
+    lastThxId: -1
 }
 
 export const initialState: RootState = { app: initialAppState } as any
@@ -25,8 +24,7 @@ export const actions = {
     setThxList: (thxList: Thx[]) => createAction("setThxList", thxList),
     setThxListFailed: (error: Error) => createAction("setThxListFailed", error),
     clearNotification: (id: string) => createAction("clearNotification", id),
-    updateLastThxId: (id: number) => createAction("updateLastThxId", id),
-    setStatus: (status: AppStatus) => createAction("setStatus", status)
+    updateLastThxId: (id: number) => createAction("updateLastThxId", id)
 }
 
 const loadFeedCmd = () =>
@@ -66,7 +64,7 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
     const ext = extend(state)
     switch (action.type) {
         case "updateThxList":
-            return ext({ status: "Loading" }, loadFeedCmd())
+            return ext({}, loadFeedCmd())
 
         case "setThxList": {
             const delta = splitThxLists(action.payload, state.lastThxId)

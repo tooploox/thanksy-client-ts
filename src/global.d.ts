@@ -59,8 +59,6 @@ type TextChunk = { type: "text"; caption: string } | { type: "nickname"; caption
 
 type RootState = { app: AppState; reducer: any }
 
-type AppStatus = "Loading" | "NoPIN" | "CheckingPIN" | "InvalidPIN" | "NewThxView" | "ThxListView" | "Offline"
-
 type Lists = { thxList: Thx[]; recentThxList: Thx[]; lastThxId: number }
-type AppState = Lists & { status: AppStatus; notifications: AppNotification[] }
+type AppState = Lists & { notifications: AppNotification[] }
 type AppNotification = { text: string; notificationId: string }
