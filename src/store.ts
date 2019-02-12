@@ -1,5 +1,5 @@
 import { LoopReducer, install, combineReducers, Cmd } from "redux-loop"
-import { Store, compose, createStore, applyMiddleware } from "redux"
+import { compose, createStore, applyMiddleware } from "redux"
 import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
 import { createAction, extend } from "./utils/redux"
@@ -160,34 +160,25 @@ export const getHistory = () => {
     return _history
 }
 
-const devTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__ || (<T>(f: T): T => f)
-let _store: Store<RootState>
+let _store: ReturnType<typeof createStore>
 export const getStore = () => {
     if (_store) return _store
+    const reducers = combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) })
     let devToolsM: any = null
     try {
-        devToolsM = devTools()
+        devToolsM = (window as any).__REDUX_DEVTOOLS_EXTENSION__()
     } catch {
-        devToolsM = null
+        devToolsM = (f: any) => f
     }
-    const loop = install()
-    const router = applyMiddleware(routerMiddleware(getHistory()))
-    _store = createStore(
-        combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) }),
-        initialState as any,
-        devToolsM
-            ? compose(
-                  devToolsM,
-                  loop,
-                  router
-              )
-            : compose(
-                  loop,
-                  router
-              )
-    ) as any
-    _store.dispatch(actions.loadToken())
 
+    const enhancer = compose(
+        install(),
+        applyMiddleware(routerMiddleware(getHistory())),
+        devToolsM
+    )
+
+    _store = createStore(reducers, initialState as any, enhancer)
+    _store.dispatch(actions.loadToken())
     setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
     return _store
 }
