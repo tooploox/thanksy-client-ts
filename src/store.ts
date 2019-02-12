@@ -177,8 +177,8 @@ export const getStore = () => {
         initialState as any,
         devToolsM
             ? compose(
-                  loop,
                   devToolsM,
+                  loop,
                   router
               )
             : compose(
@@ -188,6 +188,6 @@ export const getStore = () => {
     ) as any
     _store.dispatch(actions.loadToken())
 
-    // setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
     return _store
 }

@@ -2,5 +2,6 @@
     "baseUrl": "http://localhost:4004",
     "video": false,
     "chromeWebSecurity": false,
+    "testFiles": "**/*.spec.js",
     "userAgent":"Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Mobile Safari/537.36"
 }
