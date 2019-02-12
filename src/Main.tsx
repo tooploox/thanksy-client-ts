@@ -1,19 +1,20 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import { ThxList } from "./components/ThxList"
-import { MapState, equal } from "./store"
+import { MapState } from "./store"
 import { Toasts } from "./components/common/Toasts"
 import { Clock } from "./components/common/Clock"
 import { ModalAnimated } from "./components/common/ModalAnimated"
 import { NewThx } from "./components/NewThx"
-import "./Main.scss"
 import { Login } from "./components/Login"
 import { Version } from "./components/common/Version"
-import { Just } from "./models"
+import { Just, equal } from "./models"
+import "./Main.scss"
 
 export const MainPure: React.SFC<AppState> = p => {
     const isLoginOpened =
         equal(p.apiState, Just<ApiState>("InvalidToken")) || equal(p.apiState, Just<ApiState>("TokenNotChecked"))
+
     const isNewThxOpened = p.recentThxList.length > 0
 
     return (

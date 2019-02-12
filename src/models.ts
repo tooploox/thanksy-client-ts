@@ -7,6 +7,8 @@ export const Ok = <T>(value: T): Ok<T> => ({ type: "Ok", value })
 
 export const Nothing = (): Nothing => ({ type: "nothing" })
 export const Just = <T>(value: T): Some<T> => ({ type: "some", value })
+export const equal = <T>(l: Maybe<T>, r: Maybe<T>) =>
+    l.type === r.type && (l.type === "some" && r.type === "some" && l.value === r.value)
 
 export const validateThxList = (d: any): Result<Thx[], string> => {
     if (!isArray(d)) return Err("Invalid payload - array expected")
@@ -59,8 +61,9 @@ export const validateUser = (data: any): Result<User, string> => {
     return Ok(value)
 }
 
-export const parseApiError = (data: any): Some<ApiState> => {
-    let value: ApiState = "NoResponse"
-    if (data === "InvalidToken") value = "InvalidToken"
-    return Just(value)
+export const parseApiState = (data: any) => {
+    const d: ApiState = data as any
+    if (d === "InvalidToken") return Just<ApiState>("InvalidToken")
+    if (d === "TokenNotChecked") return Just<ApiState>("TokenNotChecked")
+    return Just<ApiState>("NoResponse")
 }

@@ -5,7 +5,7 @@ import { createBrowserHistory } from "history"
 import { createAction, extend } from "./utils/redux"
 import { loadFeed } from "./api"
 import { cheerBase64 } from "./assets/audio"
-import { Nothing, parseApiError, Just } from "./models"
+import { Nothing, parseApiState, Just, equal } from "./models"
 import { MapDispatchToPropsNonObject } from "react-redux"
 
 export type MapState<TS, TO = {}> = (state: RootState, props: TO) => TS
@@ -25,6 +25,13 @@ export const initialAppState: AppState = {
 export const initialState: RootState = { app: initialAppState } as any
 
 export const actions = {
+    loadToken: () => createAction("loadToken"),
+    loadTokenSuccess: (token: string) => createAction("loadTokenSuccess", token),
+
+    updateToken: (token: string) => createAction("updateToken", token),
+    updateTokenSuccess: (token: string) => createAction("updateTokenSuccess", token),
+    login: () => createAction("login"),
+
     updateThxList: () => createAction("updateThxList"),
     updateThxListSuccess: (thxList: Thx[]) => createAction("updateThxListSuccess", thxList),
     updateThxListFail: (error: Error) => createAction("updateThxListFail", error),
@@ -33,14 +40,7 @@ export const actions = {
 
     setLastThxId: (id: number) => createAction("setLastThxId", id),
 
-    loadToken: () => createAction("loadToken"),
-    loadTokenSuccess: (token: string) => createAction("loadTokenSuccess", token),
-
-    updateToken: (token: string) => createAction("updateToken", token),
-    updateTokenSuccess: (token: string) => createAction("updateTokenSuccess", token),
-
-    login: () => createAction("login"),
-    setApiError: (error: Maybe<ApiState>) => createAction("setApiError", error)
+    setApiState: (error: Maybe<ApiState>) => createAction("setApiState", error)
 }
 
 const loadFeedCmd = (token: string) =>
@@ -48,6 +48,7 @@ const loadFeedCmd = (token: string) =>
         successActionCreator: actions.updateThxListSuccess,
         failActionCreator: actions.updateThxListFail
     })
+
 const TOKEN_KEY = "ThanksyToken"
 const storeTokenCmd = (token: string) =>
     Cmd.run(
@@ -75,15 +76,15 @@ export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
 const clearNotificationCmd = (id: string) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 2500)), { successActionCreator: actions.clearNotification })
 
-const updateLastThxIdCmd = (id: number) =>
+export const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9000)), { successActionCreator: actions.setLastThxId })
 
 export const cheerSound = new Audio(cheerBase64)
-// const isLocalHost = window.location.toString().indexOf("localhost") !== -1
+const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
-            // if (isLocalHost) throw new Error("NO_SOUND_SET")
+            if (isLocalHost) throw new Error("NO_SOUND_SET")
             await cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
@@ -93,9 +94,6 @@ const AppNotification = (text: string): AppNotification => ({ text, notification
 
 const ApiErrorNotification = ({ value }: Some<ApiState>) =>
     AppNotification(value === "InvalidToken" ? "Invalid token" : "Server connection problem")
-
-export const equal = <T>(l: Maybe<T>, r: Maybe<T>) =>
-    l.type === r.type && (l.type === "some" && r.type === "some" && l.value === r.value)
 
 export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) => {
     if (!state) return initialState.app
@@ -116,7 +114,7 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
         case "login":
             return ext({ apiState: Just<ApiState>("TokenNotChecked") }, loadFeedCmd(state.token))
 
-        case "setApiError":
+        case "setApiState":
             return ext({ apiState: action.payload })
 
         case "updateThxList":
@@ -136,7 +134,7 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
         }
 
         case "updateThxListFail": {
-            const apiState = parseApiError(action.payload.message)
+            const apiState = parseApiState(action.payload.message)
             if (apiState.value === "InvalidToken") return ext({ isTokenFresh: false, apiState })
             const notifications = [ApiErrorNotification(apiState), ...state.notifications]
             return ext(
@@ -166,17 +164,30 @@ const devTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__ || (<T>(f: T): T =
 let _store: Store<RootState>
 export const getStore = () => {
     if (_store) return _store
+    let devToolsM: any = null
+    try {
+        devToolsM = devTools()
+    } catch {
+        devToolsM = null
+    }
+    const loop = install()
+    const router = applyMiddleware(routerMiddleware(getHistory()))
     _store = createStore(
         combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) }),
         initialState as any,
-        compose(
-            install(),
-            devTools(),
-            applyMiddleware(routerMiddleware(getHistory()))
-        )
-    )
+        devToolsM
+            ? compose(
+                  loop,
+                  devToolsM,
+                  router
+              )
+            : compose(
+                  loop,
+                  router
+              )
+    ) as any
     _store.dispatch(actions.loadToken())
 
-    setInterval(() => _store.dispatch(actions.updateThxList()), 10000)
+    // setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
     return _store
 }

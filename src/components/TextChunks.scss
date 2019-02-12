@@ -23,12 +23,12 @@
         padding: 0 .3rem;
     }
     mark:nth-of-type(1n) {
-        @include gradient-text(linear-gradient(330deg, rgb(251, 139, 171) 0%, rgb(156, 148, 232) 50%, rgb(104, 225, 239) 100%));
+        @include gradient-text( linear-gradient(to right, #fb8bab, #9c94e8 46%, #68e1ef));
     }
     mark:nth-of-type(2n) {
-        @include gradient-text(linear-gradient(330deg, rgb(90, 253, 161) 0%, rgb(82, 204, 244) 100%));
+        @include gradient-text(linear-gradient(to right, #5afda1, #52ccf4));
     }
     mark:nth-of-type(3n) {
-        @include gradient-text(linear-gradient(330deg, rgb(242, 194, 80) 0%, rgb(254, 85, 125) 100%));
+        @include gradient-text(linear-gradient(to right, #f2c250, #fe557d));
     }
 }

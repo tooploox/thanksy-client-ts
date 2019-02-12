@@ -1,10 +1,10 @@
 import * as React from "react"
 import ScrollLock from "react-scrolllock"
 import { bind } from "../utils/bem"
-import { MapState, actions, MapDispatch, equal } from "../store"
+import { MapState, actions, MapDispatch } from "../store"
 import { connect } from "react-redux"
 import "./Login.scss"
-import { Just } from "../models"
+import { Just, equal } from "../models"
 
 const { Block, Element } = bind("Login")
 type StateProps = { token: string; error: string }

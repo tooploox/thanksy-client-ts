@@ -17,7 +17,6 @@ export const Emoji = (caption: string, url: string = ""): TextChunk => ({ type: 
 export const parseTextRec = (text: string, acc: TextChunk[] = []): TextChunk[] => {
     const emojiRes = /(:[a-zA-Z_0-9+-]+:)/g.exec(text)
     const emojiIndex = emojiRes ? text.indexOf(emojiRes[0]) : -1
-
     const nicknameRes = /(@[a-zA-Z_0-9.-]+)/g.exec(text)
     const nicknameIndex = nicknameRes ? text.indexOf(nicknameRes[0]) : -1
 
@@ -32,6 +31,7 @@ export const parseTextRec = (text: string, acc: TextChunk[] = []): TextChunk[] =
         acc.push(Nickname(nicknameRes[0]))
         return parseTextRec(text.substring(nicknameIndex + nicknameRes[0].length), acc)
     }
+
     return text ? [...acc, Text(text)] : acc
 }
 
@@ -42,7 +42,6 @@ export const parseText = (text: string, acc: TextChunk[] = []) => {
 }
 
 const emojiUrl = (name: string) => `https://twemoji.maxcdn.com/2/72x72/${name}.png`
-// `https://twemoji.maxcdn.com/svg/${name}.svg`
 
 const extEmoji = ({ caption }: Emoji, name: string) =>
     Emoji(getter(emojiByName[caption], "char") || caption, emojiUrl(name))

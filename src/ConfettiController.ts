@@ -4,11 +4,11 @@ import { mapRepeat } from "./utils"
 
 const defaultConfig = {
     angle: 90,
-    spread: 75,
-    startVelocity: 85,
-    elementCount: 28,
+    spread: 80,
+    startVelocity: 82,
+    elementCount: 30,
     dragFriction: 0.1,
-    duration: 7230,
+    duration: 7200,
     delay: 5,
     width: 12,
     height: 12,
@@ -20,11 +20,14 @@ export type ConfettiConfig = typeof defaultConfig
 type Physics = ReturnType<typeof randomPhysics>
 type Particle = { element: HTMLDivElement; physics: Physics }
 
-const createElement = (color: string, { width, height, random }: ConfettiConfig) => {
+const createElement = (color: string, { width, random }: ConfettiConfig) => {
     const e = document.createElement("div")
+    // e.style.border = `3px solid ${color}`
+    // if (random() - 0.5 > 0)
+    e.style.borderRadius = "50%"
     e.style.backgroundColor = color
     e.style.width = `${Math.floor((random() * 100) % width) + 1}px`
-    e.style.height = `${Math.floor((random() * 100) % height) + 1}px`
+    e.style.height = e.style.width // `${Math.floor((random() * 100) % height) + 1}px`
     e.style.position = "absolute"
     e.style.visibility = "hidden"
     return e

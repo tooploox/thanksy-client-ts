@@ -2,6 +2,7 @@ import { validateThxList } from "./models"
 import { setEmojiUrls } from "./emoji"
 import { request, HTTPError } from "./utils/https"
 
+// const API_URI = "http://localhost:3000"
 const API_URI = process.env.API_URL
 
 export const loadFeed = async (bearer: string) => {

@@ -9,7 +9,7 @@ import "./Thx.scss"
 const { Block, Element } = bind("Thx")
 
 export const Thx: React.SFC<Thx> = p => (
-    <Block>
+    <Block id={`thx${p.id.toString()}`}>
         <UserHeader {...p.giver} createdAt={p.createdAt} />
         <Element name="Content">
             <TextChunks chunks={p.chunks} />
