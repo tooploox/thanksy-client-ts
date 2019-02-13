@@ -3,7 +3,7 @@ import { setEmojiUrls } from "./emoji"
 import { request, HTTPError } from "./utils/https"
 
 // const API_URI = "http://localhost:3000"
-const API_URI = process.env.API_URL
+const API_URI = process.env.API_URL || "https://thanksy.herokuapp.com"
 
 export const loadFeed = async (bearer: string) => {
     bearer = "123456"
