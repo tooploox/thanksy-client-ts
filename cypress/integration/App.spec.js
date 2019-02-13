@@ -1,12 +1,10 @@
 // tslint:disable-next-line
 ///<reference path="../../node_modules/cypress/types/index.d.ts"/>
 
-import { thxListFixture } from "../fixtures"
+import { thxListFixture, thxFixture, userFixture } from "../fixtures"
 import * as api from "../support/api"
 import { isLoginPage, LoginPage, isThxListPage } from "../support"
-
-const err = { error: "You have to provide a valid access token.2" }
-
+import * as el from "../support/el"
 describe("Login Page", () => {
     it("Displays `Login page` with no input when server return `Invalid token` on initial request", () => {
         api.runningServer()
@@ -35,9 +33,7 @@ describe("Login Page", () => {
         const response = thxListFixture(1)
         api.serverGivesData(response)
         cy.visit("/", {
-            onBeforeLoad: win => {
-                win.localStorage.setItem("ThanksyToken", api.TOKEN)
-            }
+            onBeforeLoad: ({ localStorage }) => localStorage.setItem("ThanksyToken", api.TOKEN)
         })
         isThxListPage(response)
     })
@@ -53,5 +49,22 @@ describe("Login Page", () => {
         cy.get(LoginPage.loginButton).click()
         isThxListPage(response)
         cy.visit("/")
+    })
+
+    it("Shows new Thx page and hides it after 9s", () => {
+        api.runningServer()
+        const [t1, t2] = thxListFixture(2)
+        api.serverGivesData([t1])
+        cy.visit("/", {
+            onBeforeLoad: ({ localStorage }) => localStorage.setItem("ThanksyToken", api.TOKEN)
+        })
+        isThxListPage([t1])
+        cy.wait(7000)
+        t2.giver.real_name = "Elsa Cayat"
+        api.serverGivesData([t1, t2])
+        el.hasText(".NewThx .NewThx__ContentLimiter h2", "Elsa just sent a new Thanks!")
+        cy.wait(9000)
+        el.notPresent(".NewThx")
+        isThxListPage([t1, t2])
     })
 })

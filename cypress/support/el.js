@@ -10,6 +10,8 @@ export const hasText = (name, text) =>
         .invoke("text")
         .should("equal", text)
 
+export const notPresent = name => cy.get(name).should("not.exist")
+
 export const containsText = (name, text) => cy.get(name).contains(text)
 export const childrenContains = (name, n, text) =>
     cy

@@ -31,7 +31,6 @@ export const parseTextRec = (text: string, acc: TextChunk[] = []): TextChunk[] =
         acc.push(Nickname(nicknameRes[0]))
         return parseTextRec(text.substring(nicknameIndex + nicknameRes[0].length), acc)
     }
-
     return text ? [...acc, Text(text)] : acc
 }
 

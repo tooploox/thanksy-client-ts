@@ -39,9 +39,8 @@ describe("counter state", () => {
         it("Gives both list filtered", () =>
             expect(splitThxLists([t1, t2, t3], 2)).toEqual({ recentThxList: [t3], thxList: [t2, t1], lastThxId: 2 }))
 
-        // TESTING HACK: Set `lastThxId:3` in next test when `splitThxList` TESTING HACK won't be needed
         it("Gives everything as thxList when thxListId is not set (-1)", () =>
-            expect(splitThxLists([t1, t2, t3], -1)).toEqual({ recentThxList: [], thxList: [t3, t2, t1], lastThxId: 2 }))
+            expect(splitThxLists([t1, t2, t3], -1)).toEqual({ recentThxList: [], thxList: [t3, t2, t1], lastThxId: 3 }))
 
         it("Gives sorted recentThxList", () =>
             expect(splitThxLists([t2, t1, t3], 0)).toEqual({ recentThxList: [t1, t2, t3], thxList: [], lastThxId: 0 }))

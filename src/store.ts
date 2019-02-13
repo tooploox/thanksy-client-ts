@@ -69,8 +69,7 @@ const loadTokenCmd = () =>
 export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
     thxList: (lastThxId === -1 ? ts : ts.filter(v => v.id <= lastThxId)).sort((l, r) => r.id - l.id),
     recentThxList: (lastThxId === -1 ? [] : ts.filter(v => v.id > lastThxId)).sort((l, r) => l.id - r.id),
-    // TESTING HACK: to always display last thx as freshone
-    lastThxId: lastThxId === -1 ? (ts && ts.length > 1 ? ts[1].id : -1) : lastThxId
+    lastThxId: lastThxId === -1 ? (ts && ts.length > 0 ? ts[0].id : -1) : lastThxId
 })
 
 const clearNotificationCmd = (id: string) =>
@@ -160,21 +159,23 @@ export const getHistory = () => {
     return _history
 }
 
+const devTools = () => {
+    try {
+        return (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    } catch {
+        return (f: any) => f
+    }
+}
+
 let _store: ReturnType<typeof createStore>
 export const getStore = () => {
     if (_store) return _store
-    const reducers = combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) })
-    let devToolsM: any = null
-    try {
-        devToolsM = (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-    } catch {
-        devToolsM = (f: any) => f
-    }
 
+    const reducers = combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) })
     const enhancer = compose(
         install(),
         applyMiddleware(routerMiddleware(getHistory())),
-        devToolsM
+        devTools()
     )
 
     _store = createStore(reducers, initialState as any, enhancer)

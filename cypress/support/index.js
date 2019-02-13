@@ -32,9 +32,9 @@ export const isLoginPage = ({ error, token }) => {
     el.hasText(LoginPage.loginButton, "Login")
 }
 
-const isThxPresent = ({ id }) => {
+const isThxPresent = ({ giver, id }) => {
     const Thx = ThxPage(id)
-    el.hasText(Thx.name, `Giver real name ${id}`)
+    el.hasText(Thx.name, giver.real_name)
     el.containsText(Thx.time, " at 20:17")
     el.hasChildren(Thx.chunks, 3)
     el.childrenContains(`${Thx.chunks} span`, 0, `${id + 1} x `)
