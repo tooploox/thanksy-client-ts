@@ -180,6 +180,6 @@ export const getStore = () => {
 
     _store = createStore(reducers, initialState as any, enhancer)
     _store.dispatch(actions.loadToken())
-    setInterval(() => _store.dispatch(actions.updateThxList()), 1000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
     return _store
 }
