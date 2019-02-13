@@ -69,7 +69,7 @@ const loadTokenCmd = () =>
 export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
     thxList: (lastThxId === -1 ? ts : ts.filter(v => v.id <= lastThxId)).sort((l, r) => r.id - l.id),
     recentThxList: (lastThxId === -1 ? [] : ts.filter(v => v.id > lastThxId)).sort((l, r) => l.id - r.id),
-    lastThxId: lastThxId === -1 ? (ts && ts.length > 1 ? ts[1].id : -1) : lastThxId
+    lastThxId: lastThxId === -1 ? (ts && ts.length > 0 ? ts[0].id : -1) : lastThxId
 })
 
 const clearNotificationCmd = (id: string) =>
