@@ -69,7 +69,7 @@ const loadTokenCmd = () =>
 export const splitThxLists = (ts: Thx[], lastThxId: number): Lists => ({
     thxList: (lastThxId === -1 ? ts : ts.filter(v => v.id <= lastThxId)).sort((l, r) => r.id - l.id),
     recentThxList: (lastThxId === -1 ? [] : ts.filter(v => v.id > lastThxId)).sort((l, r) => l.id - r.id),
-    lastThxId: lastThxId === -1 ? (ts && ts.length > 0 ? ts[0].id : -1) : lastThxId
+    lastThxId: lastThxId === -1 ? (ts && ts.length > 1 ? ts[1].id : -1) : lastThxId
 })
 
 const clearNotificationCmd = (id: string) =>
@@ -92,7 +92,7 @@ const playCheersAudioCmd = () =>
 const AppNotification = (text: string): AppNotification => ({ text, notificationId: new Date().getTime().toString() })
 
 const ApiErrorNotification = ({ value }: Some<ApiState>) =>
-    AppNotification(value === "InvalidToken" ? "Invalid token" : "Server connection problem")
+    AppNotification(value === "NoResponse" ? "Server connection problem" : "Invalid token")
 
 export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) => {
     if (!state) return initialState.app
@@ -180,6 +180,6 @@ export const getStore = () => {
 
     _store = createStore(reducers, initialState as any, enhancer)
     _store.dispatch(actions.loadToken())
-    setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 1000)
     return _store
 }

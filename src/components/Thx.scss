@@ -1,3 +1,4 @@
+@import "./LayoutOptions.scss";
 .Thx {
     margin-left: 1.25rem;
     display: flex;
@@ -11,5 +12,13 @@
         position: relative;
         padding: 3em;
         box-shadow: 0 .3rem .7rem 0 rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: $desktopWidth) {
+        margin: 0;
+        &__Content {
+            margin: 2vw;
+            width: 83vw;
+            margin-bottom: 6rem;
+        }
     }
 }

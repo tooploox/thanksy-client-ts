@@ -31,4 +31,7 @@
     mark:nth-of-type(3n) {
         @include gradient-text(linear-gradient(to right, #f2c250, #fe557d));
     }
+    @media (max-width: $desktopWidth) {
+        font-size: 2.3rem;
+    }
 }

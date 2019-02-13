@@ -1,3 +1,4 @@
+@import "../LayoutOptions.scss";
 .Clock {
     position: fixed;
     bottom: 3rem;
@@ -5,4 +6,8 @@
     font-size: 2rem;
     opacity: .5;
     z-index: 1009;
+    max-width: 50vw;
+    @media (max-width: $desktopWidth) {
+        position: relative;
+    }
 }

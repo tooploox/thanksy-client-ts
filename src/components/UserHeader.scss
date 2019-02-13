@@ -1,3 +1,4 @@
+@import "./LayoutOptions.scss";
 .UserHeader {
     margin-left: 6rem;
     margin-right: 6rem;
@@ -12,7 +13,7 @@
         }
     }
     &__Name {
-        font-size: 2.5rem;
+        font-size: 2.3rem;
         margin-bottom: 0.25rem;
         letter-spacing: 0.01rem;
         line-height: 2.5rem;
@@ -20,12 +21,15 @@
         color: black;
     }
     &__Time {
-        font-size: 1.7rem;
+        font-size: 1.9rem;
         color: rgb(121, 165, 180);
         letter-spacing: 0.025rem;
         line-height: 2.5rem;
     }
     &__Time::first-letter {
         text-transform: uppercase;
+    }
+    @media (max-width: $desktopWidth) {
+        margin-left: 4rem;
     }
 }
