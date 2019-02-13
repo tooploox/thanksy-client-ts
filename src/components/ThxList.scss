@@ -1,5 +1,6 @@
 @import "./LayoutOptions.scss";
 .ThxList {
+    margin-left: 1rem;
     &__Container {
         display: flex;
         margin-top: 22vh;
@@ -40,6 +41,7 @@
         font-size: 2.5rem;
     }
     @media (max-width: $desktopWidth) {
+        margin-left: .5rem;
         &__Container {
             flex-direction: column;
             margin-top: 7vh;

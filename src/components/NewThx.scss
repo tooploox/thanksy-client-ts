@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     &__ContentLimiter {
-        max-width: 60vw;
+        max-width: 40vw;
         max-height: 80vh;
         min-height: 80vh;
         display: flex;
@@ -16,10 +16,13 @@
         text-align: center;
     }
     width: 100vw;
-    height: 100vh;
-    background: url("../assets/confetti.svg") bottom center no-repeat;
+    height: 100vh; // background: url("../assets/confetti.svg") bottom center no-repeat;
+    background-size: 50vw 50vw;
     &__ConfettiContainer {
         position: fixed;
         bottom: 0;
+    }
+    &__Avatars {
+        margin-top: 1rem;
     }
 }

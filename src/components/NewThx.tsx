@@ -14,7 +14,9 @@ export const NewThx: React.SFC<{ thx: Thx }> = ({ thx }) => (
         <Element name="ContentLimiter">
             <h2>{thx.giver.real_name.replace(/ .*/, "")} just sent a new Thanks!</h2>
             <TextChunks centred light chunks={thx.chunks} />
-            <Avatars users={thx.receivers} maxCount={11} />
+            <Element name="Avatars">
+                <Avatars users={thx.receivers} maxCount={11} />
+            </Element>
             <Element name="ConfettiContainer">
                 <div ref={ref => setTimeout(() => ConfettiController(ref), 100)} />
             </Element>

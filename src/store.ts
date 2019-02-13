@@ -79,11 +79,11 @@ export const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9000)), { successActionCreator: actions.setLastThxId })
 
 export const cheerSound = new Audio(cheerBase64)
-const isLocalHost = window.location.toString().indexOf("localhost") !== -1
+// const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
-            if (isLocalHost) throw new Error("NO_SOUND_SET")
+            // if (isLocalHost) throw new Error("NO_SOUND_SET")
             await cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
@@ -180,6 +180,6 @@ export const getStore = () => {
 
     _store = createStore(reducers, initialState as any, enhancer)
     _store.dispatch(actions.loadToken())
-    setInterval(() => _store.dispatch(actions.updateThxList()), 8000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 2000)
     return _store
 }
