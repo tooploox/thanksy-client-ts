@@ -1,10 +1,7 @@
 import { LoopReducer, install, combineReducers, Cmd } from "redux-loop"
-import { compose, createStore, applyMiddleware } from "redux"
-import { connectRouter, routerMiddleware } from "connected-react-router"
-import { createBrowserHistory } from "history"
+import { compose, createStore } from "redux"
 import { createAction, extend } from "./utils/redux"
 import { loadFeed } from "./api"
-// import { cheerBase64 } from "./assets/audio"
 import { Nothing, parseApiState, Just, equal } from "./models"
 import { MapDispatchToPropsNonObject } from "react-redux"
 
@@ -78,13 +75,13 @@ const clearNotificationCmd = (id: string) =>
 export const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9000)), { successActionCreator: actions.setLastThxId })
 
-// export const cheerSound = new Audio(cheerBase64)
+export const cheerSound: HTMLAudioElement = document.getElementById("cheer") as any
 // const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
             // if (isLocalHost) throw new Error("NO_SOUND_SET")
-            // await cheerSound.play()
+            if (cheerSound) await cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
     )
@@ -153,12 +150,6 @@ export const reducer: LoopReducer<AppState, Actions> = (state, action: Actions) 
     return state
 }
 
-let _history: ReturnType<typeof createBrowserHistory>
-export const getHistory = () => {
-    if (!_history) _history = createBrowserHistory()
-    return _history
-}
-
 const devTools = () => {
     try {
         return (window as any).__REDUX_DEVTOOLS_EXTENSION__()
@@ -171,10 +162,9 @@ let _store: ReturnType<typeof createStore>
 export const getStore = () => {
     if (_store) return _store
 
-    const reducers = combineReducers<any>({ app: reducer, router: connectRouter(getHistory()) })
+    const reducers = combineReducers<any>({ app: reducer })
     const enhancer = compose(
-        install(),
-        applyMiddleware(routerMiddleware(getHistory())),
+        install({ DONT_LOG_ERRORS_ON_HANDLED_FAILURES: true }),
         devTools()
     )
 
@@ -183,5 +173,3 @@ export const getStore = () => {
     setInterval(() => _store.dispatch(actions.updateThxList()), 3000)
     return _store
 }
-
-// localStorage.removeItem(TOKEN_KEY)

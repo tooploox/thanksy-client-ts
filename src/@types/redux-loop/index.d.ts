@@ -1,18 +1,16 @@
 import { Action, ActionCreator, AnyAction, StoreEnhancer, Store } from "redux"
 
-export interface StoreCreator {
-    <S, A extends Action>(reducer: LoopReducer<S, A>, preloadedState: S, enhancer: StoreEnhancer<S>): Store<S>
-}
+export type StoreCreator = <S, A extends Action>(
+    reducer: LoopReducer<S, A>,
+    preloadedState: S,
+    enhancer: StoreEnhancer<S>
+) => Store<S>
 
 export type Loop<S, A extends Action> = [S, CmdType<A>]
 
-export interface LoopReducer<S, A extends Action> {
-    (state: S | undefined, action: AnyAction): S | Loop<S, A>
-}
+export type LoopReducer<S, A extends Action> = (state: S | undefined, action: AnyAction) => S | Loop<S, A>
 
-export interface LiftedLoopReducer<S, A extends Action> {
-    (state: S | undefined, action: AnyAction): Loop<S, A>
-}
+export type LiftedLoopReducer<S, A extends Action> = (state: S | undefined, action: AnyAction) => Loop<S, A>
 
 export type CmdSimulation = {
     result: any
@@ -29,7 +27,7 @@ export interface NoneCmd {
 
 export interface ListCmd<A extends Action> {
     readonly type: "LIST"
-    readonly cmds: CmdType<A>[]
+    readonly cmds: Array<CmdType<A>>
     readonly sequence?: boolean
     readonly batch?: boolean
     simulate(simulations: MultiCmdSimulation): A[]
@@ -59,7 +57,7 @@ export interface RunCmd<A extends Action> {
     simulate(simulation: CmdSimulation): A
 }
 
-//deprecated types
+// deprecated types
 export type SequenceCmd<A extends Action> = ListCmd<A>
 export type BatchCmd<A extends Action> = ListCmd<A>
 
@@ -72,7 +70,7 @@ export type CmdType<A extends Action> =
     | BatchCmd<A>
     | SequenceCmd<A>
 
-declare function install<S>(): StoreEnhancer<S>
+declare function install<S>(confing: { DONT_LOG_ERRORS_ON_HANDLED_FAILURES?: boolean }): StoreEnhancer<S>
 
 declare function loop<S, A extends Action>(state: S, cmd: CmdType<A>): Loop<S, A>
 
@@ -81,11 +79,11 @@ declare namespace Cmd {
     export const getState: symbol
     export const none: NoneCmd
     export function action<A extends Action>(action: A): ActionCmd<A>
-    export function batch<A extends Action>(cmds: CmdType<A>[]): BatchCmd<A>
-    export function sequence<A extends Action>(cmds: CmdType<A>[]): SequenceCmd<A>
+    export function batch<A extends Action>(cmds: Array<CmdType<A>>): BatchCmd<A>
+    export function sequence<A extends Action>(cmds: Array<CmdType<A>>): SequenceCmd<A>
 
     export function list<A extends Action>(
-        cmds: CmdType<A>[],
+        cmds: Array<CmdType<A>>,
         options?: {
             batch?: boolean
             sequence?: boolean
