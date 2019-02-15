@@ -6,12 +6,12 @@ const defaultConfig = {
     angle: 90,
     spread: 100,
     startVelocity: 92,
-    elementCount: 40,
+    elementCount: 32,
     dragFriction: 0.1,
     duration: 3200,
     delay: 5,
-    width: 32,
-    height: 32,
+    width: 30,
+    height: 30,
     colors: ["#5afda1", "#5afda1", "#fb8bab", "#9c94e8", "#68e1ef", "f2c250", "#fe557d"],
     random: Math.random
 }

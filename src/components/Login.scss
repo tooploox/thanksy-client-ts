@@ -58,12 +58,14 @@
         text-align: center;
         margin-top: 5rem;
         letter-spacing: .5rem;
+        font-family: 'Poppins' !important;
     }
     ::-webkit-input-placeholder {
         /* Chrome/Opera/Safari */
         color: rgba(0, 0, 0, .2);
         letter-spacing: 0;
         font-size: 1.4rem;
+        font-family: 'Poppins' !important;
     }
     p {
         font-size: 1.3rem;
@@ -81,6 +83,7 @@
         border: none;
         color: white;
         letter-spacing: .1rem;
+        font-family: 'Poppins' !important;
         font-size: 2rem;
     }
     &__Error {

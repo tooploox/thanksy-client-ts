@@ -4,7 +4,7 @@ import { connectRouter, routerMiddleware } from "connected-react-router"
 import { createBrowserHistory } from "history"
 import { createAction, extend } from "./utils/redux"
 import { loadFeed } from "./api"
-import { cheerBase64 } from "./assets/audio"
+// import { cheerBase64 } from "./assets/audio"
 import { Nothing, parseApiState, Just, equal } from "./models"
 import { MapDispatchToPropsNonObject } from "react-redux"
 
@@ -78,13 +78,13 @@ const clearNotificationCmd = (id: string) =>
 export const updateLastThxIdCmd = (id: number) =>
     Cmd.run(() => new Promise(r => setTimeout(() => r(id), 9000)), { successActionCreator: actions.setLastThxId })
 
-export const cheerSound = new Audio(cheerBase64)
+// export const cheerSound = new Audio(cheerBase64)
 // const isLocalHost = window.location.toString().indexOf("localhost") !== -1
 const playCheersAudioCmd = () =>
     Cmd.run(
         async () => {
             // if (isLocalHost) throw new Error("NO_SOUND_SET")
-            await cheerSound.play()
+            // await cheerSound.play()
         },
         { successActionCreator: () => ({ type: "audioPlayed" }), failActionCreator: () => ({ type: "noAudioPlayed" }) }
     )
@@ -180,6 +180,8 @@ export const getStore = () => {
 
     _store = createStore(reducers, initialState as any, enhancer)
     _store.dispatch(actions.loadToken())
-    setInterval(() => _store.dispatch(actions.updateThxList()), 2000)
+    setInterval(() => _store.dispatch(actions.updateThxList()), 3000)
     return _store
 }
+
+// localStorage.removeItem(TOKEN_KEY)

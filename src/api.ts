@@ -6,7 +6,6 @@ import { request, HTTPError } from "./utils/https"
 const API_URI = process.env.API_URL || "https://thanksy.herokuapp.com"
 
 export const loadFeed = async (bearer: string) => {
-    bearer = "123456"
     const url = `${API_URI}/thanks/list`
     try {
         const json = await request(url, null, bearer, "GET")
