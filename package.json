@@ -12,6 +12,7 @@
     "start": "npx poi --require ts-node/register --config poi.config.js",
     "build": "npx poi build --require ts-node/register --config poi.config.js && cp src/assets/cheer.mp3 dist/assets/",
     "fake-api": "npx json-server --watch ./cypress/support/db.json --middlewares ./cypress/support/auth.js --routes ./cypress/support/routes.json",
+    "timestamp": "./timestamp.sh",
     "test:e2e": "npx cypress run --reporter json",
     "test:unit": "npx jest",
     "test": "npm run test:unit ",
@@ -20,18 +21,11 @@
     "cypress:open": "npx cypress open"
   },
   "dependencies": {
-    "emoji-regex": "7.0.3",
-    "emojilib": "2.4.0",
-    "luxon": "1.11.2",
-    "react": "16.8.2",
-    "react-dom": "16.8.2",
-    "react-motion": "0.5.2",
-    "react-redux": "6.0.0",
-    "react-scrolllock": "4.0.1",
-    "redux": "4.0.1",
-    "redux-loop": "4.5.4",
-    "twemoji": "11.3.0",
     "@types/emoji-regex": "7.0.0",
+    "@types/enzyme": "3.1.17",
+    "@types/enzyme-adapter-react-16": "1.0.3",
+    "@types/jest": "24.0.3",
+    "@types/jest-diff": "20.0.0",
     "@types/luxon": "1.11.0",
     "@types/node": "11.9.4",
     "@types/react": "16.8.3",
@@ -40,19 +34,28 @@
     "@types/react-redux": "7.0.1",
     "@types/react-test-renderer": "16.8.1",
     "awesome-typescript-loader": "5.2.1",
+    "dotenv": "^6.2.0",
+    "emoji-regex": "7.0.3",
+    "emojilib": "2.4.0",
     "identity-obj-proxy": "3.0.0",
+    "luxon": "1.11.2",
     "node-sass": "4.11.0",
+    "offline-plugin": "^5.0.6",
     "poi": "9.6.13",
     "poi-preset-react": "9.2.1",
     "poi-preset-typescript": "9.0.2",
+    "react": "16.8.2",
+    "react-dom": "16.8.2",
+    "react-motion": "0.5.2",
+    "react-redux": "6.0.0",
+    "react-scrolllock": "4.0.1",
     "react-test-renderer": "16.8.1",
+    "redux": "4.0.1",
+    "redux-loop": "4.5.4",
     "sass-loader": "7.1.0",
     "ts-node": "8.0.2",
-    "@types/jest": "24.0.3",
-    "@types/enzyme": "3.1.17",
-    "typescript": "3.3.3",
-    "@types/enzyme-adapter-react-16": "1.0.3",
-    "@types/jest-diff": "20.0.0"
+    "twemoji": "11.3.0",
+    "typescript": "3.3.3"
   },
   "devDependencies": {
     "cypress": "3.1.5",
@@ -103,7 +106,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "npx prettier --config .prettierrc --write",
+      "npx prettier --config .prettierrc --write; ./timestamp.sh",
       "git add"
     ]
   }

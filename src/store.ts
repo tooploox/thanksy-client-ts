@@ -173,3 +173,8 @@ export const getStore = () => {
     setInterval(() => _store.dispatch(actions.updateThxList()), 3000)
     return _store
 }
+const sha = process.env.BUILD_SHA || ""
+export const env = {
+    buildDate: process.env.BUILD_DATE,
+    sha: sha.substr(sha.length - 5)
+}
