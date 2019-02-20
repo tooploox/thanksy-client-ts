@@ -1,0 +1,170 @@
+.why{width: 100%}
+
+  @media only screen and (max-width: 600px) {
+    .why{padding: 0px;}
+  }
+
+.why__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 0 128px;}
+
+  @media only screen and (max-width: 992px) {
+    .why__container{
+      padding: 32px 0px 48px 0px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__container{
+      padding: 32px 0px 48px 0px;
+      flex-direction: column;}
+  }
+
+.why__item.logo {
+  margin: 0px auto 96px;}
+
+  @media only screen and (max-width: 992px) {
+    .why__item.logo {
+      opacity: 1.0;
+      margin: 24px auto 0px;}
+
+    .why__item.logo img{
+      height: 24px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__item.logo {
+      opacity: 1.0;
+      margin: 20px auto 0px;}
+
+    .why__item.logo img{
+      height: 18px;}
+  }
+
+.why__item.headline{
+  width: 720px;
+  margin: 0 auto;}
+
+  @media only screen and (max-width: 992px) {
+    .why__item.headline{
+      width: 100%;
+      padding: 40px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__item.headline{
+      width: 100%;
+      padding: 40px;}
+  }
+
+.why__item.headline h1{
+  font-size: 48px;
+  line-height: 52px;
+  font-weight: 600;
+  letter-spacing: 0.7;
+  text-align: center;}
+
+  @media only screen and (max-width: 992px) {
+    .why__item.headline h1{
+      margin: 32px 0;
+      line-height: 46px;
+      font-size: 42px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__item.headline h1{
+      line-height: 36px;
+      font-size: 32px;}
+  }
+
+.why__item.buttons{
+  display: flex;
+  margin-top: 48px;}
+
+  @media only screen and (max-width: 992px) {
+    .why__item.buttons{
+      padding: 0 64px;
+      margin: 0 0 24px 0;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__item.buttons{
+      text-align: center;
+      width: 100%;
+      padding: 0px;
+      margin: 0;}
+  }
+
+.why__item.buttons a{
+  display: inline-block;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 20px;
+  vertical-align: middle;}
+
+.why__item.buttons a:hover{
+  transform: translate(0px, -3px);}
+
+.why__item.buttons .blue{
+  background: linear-gradient(to right, #0039FF 0%, #52CCF4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;}
+
+.why__item.buttons .blue span{
+  display: inline-block;
+  vertical-align: middle;
+  margin: -2px 10px 0 0;
+  height: 26px;
+  width: 26px;
+  background-image: url(../assets/ico-download.svg);
+  background-repeat: no-repeat;}
+
+.why__item.buttons .orange{
+  background: linear-gradient(to right, #F2C250 0%, #FE557D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;}
+
+.why__item.buttons .orange span{
+  display: inline-block;
+  vertical-align: middle;
+  margin: -2px 10px 0 0;
+  height: 26px;
+  width: 26px;
+  background-image: url(../assets/ico-play.svg);
+  background-repeat: no-repeat;}
+
+  @media only screen and (max-width: 992px) {
+    .why__item.buttons a{
+      text-align: center;
+
+      line-height: 20px;
+      font-size: 16px;}
+
+    .why__item.buttons .blue span,
+    .why__item.buttons .orange span{
+      background-size: 100%;
+      background-position: center;
+      margin: 0 auto 12px;
+      display: block;
+      height: 22px;
+      width: 22px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .why__item.buttons a{
+      text-align: center;
+      width: 50%;
+      line-height: 20px;
+      font-size: 16px;}
+
+    .why__item.buttons .blue span,
+    .why__item.buttons .orange span{
+      background-size: 100%;
+      background-position: center;
+      margin: 0 auto 12px;
+      display: block;
+      height: 22px;
+      width: 22px;}
+  }

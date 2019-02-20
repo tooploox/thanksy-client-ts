@@ -1,0 +1,163 @@
+.what{
+  background: #ffffff;
+  padding: 0;}
+
+  @media only screen and (max-width: 992px) {
+    .what{
+      padding: 96px 40px 32px 40px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .what{
+      padding: 64px 20px 0px;}
+  }
+
+.what__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 96px 0;}
+
+.what__item.headline{
+  width: 720px;
+  margin: 0 auto;}
+
+  @media only screen and (max-width: 992px) {
+    .what__item.headline{
+      width: 100%;}
+  }
+
+.what__item.headline h2{
+  font-size: 42px;
+  font-weight: 600;
+  letter-spacing: 0.7;
+  margin: 0 0 48px 0;
+  text-align: center;}
+
+  @media only screen and (max-width: 992px) {
+    .what__item.headline h2{
+      font-size: 36px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .what__item.headline h2{
+      line-height: 32px;
+      padding: 0 32px;
+      font-size: 28px;}
+  }
+
+.what__item.slack{
+  align-items: center;
+  display: flex;
+  border-width: 1px;
+  border-color: #e5e5e5;
+  border-style: solid;
+  padding: 20px 0px 20px 20px;
+  border-radius: 100px;
+  margin-bottom: 96px;}
+
+.what__item.slack a{
+  font-size: 16px;
+  color: #000000;
+  padding: 0 30px;}
+
+.what__item.slack a:hover{
+  text-decoration: none;
+}
+
+  @media only screen and (max-width: 600px) {
+    .what__item.slack{
+      display: flex;
+      flex-direction: column;
+      padding: 20px 10px;
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 42px;
+      font-size: 36px;}
+
+    .what__item.slack img{
+      height: 26px;}
+
+    .what__item.slack a{
+      font-size: 16px;
+      color: #000000;
+      padding: 20px 0 0 0;}
+  }
+
+.what__item.headline2 h6 span::before {
+  content: "\A";
+  white-space: pre;}
+
+.what__item.headline2 h6{
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  line-height: 36px;
+  width: 620px;
+  margin: 0;
+  text-align: center;}
+
+  @media only screen and (max-width: 992px) {
+    .what__item.headline2 h6{
+      width: 100%;
+      font-size: 24px;
+      line-height: 28px;
+      padding: 0 20px;}
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    .what__item.headline2 h6 span::before {
+      content: "\A";
+      white-space: normal;}
+
+    .what__item.headline2 h6{
+      width: 100%;
+      line-height: 24px;
+      font-size: 20px;}
+  }
+
+.what__item.bigpicture{
+  position: relative;
+  height: 613px;
+  width: 981px;
+  background-image: url(../assets/bg-thanksy.svg);
+  background-repeat: no-repeat;
+  background-size: 99%;
+  background-position: center;}
+
+.what__item.bigpicture .description{
+  position: absolute;
+  text-align: center;
+  bottom: 0px;
+  width: 100%;}
+
+.what__item.bigpicture p{
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;}
+
+.what__item.bigpicture .description span{
+  font-weight: 400;}
+
+.what__item.bigpicture .description span::before {
+  content: "\A";
+  white-space: pre;}
+
+  @media only screen and (max-width: 900px) {
+    .what__item.bigpicture{
+      width: 100%;}
+  }
+
+  @media only screen and (max-width: 600px) {
+    .what__item.bigpicture{
+      height: 280px;
+      width: 100%;}
+
+    .what__item.bigpicture .description{
+      bottom: -32px;}
+
+    .what__item.bigpicture p{
+      font-size: 16px;
+      line-height: 20px;}
+  }

@@ -1,0 +1,19 @@
+* {
+  font-feature-settings: "liga","kern";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;}
+
+h1,h2,h3,h4,h5,h6,p,span,div,input,button{
+  font-family: 'Poppins', -apple-system, Arial, Helvetica, sans-serif;}
+
+body{background-color: #fff;}
+
+.hide {display: none;}
+
+.hidden{opacity:0;}
+.visible{opacity:1;}
+
+.thansky{background-color: #ffffff;}
+
+a{transition: all .2s ease-in-out;}

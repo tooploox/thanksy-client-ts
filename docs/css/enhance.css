@@ -1,0 +1,86 @@
+.enhance{
+  background: #f9f8fa;
+  margin: 0 64px 0px;}
+
+  @media only screen and (max-width: 992px) {
+    .enhance{
+      margin: 0;}
+  }
+
+.enhance__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 96px 0 64px;}
+
+  @media only screen and (max-width: 600px) {
+    .enhance__container{
+      padding: 64px 0 32px;}
+  }
+
+.enhance__item.headline h2{
+  font-size: 42px;
+  text-align: center;
+  max-width: 480px;
+  font-weight: 600;
+  letter-spacing: 0.7;
+  margin: 0 0 32px 0;}
+
+  @media only screen and (max-width: 600px) {
+    .enhance__item.headline h2{
+      padding: 0 64px;
+      font-size: 28px;}
+  }
+
+.enhance__item.buttons{
+  margin-bottom: 64px;}
+
+  @media only screen and (max-width: 600px) {
+    .enhance__item.buttons{
+      margin-bottom: 32px;}
+  }
+
+.enhance__item.buttons a{
+  font-size: 20px;
+  display: inline-block;
+  font-weight: 600;
+  vertical-align: middle;}
+
+.enhance__item.buttons a:hover{
+  transform: translate(0px, -3px);}
+
+.enhance__item.buttons .blue{
+  background: linear-gradient(to right, #0039FF 0%, #52CCF4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;}
+
+.enhance__item.buttons .blue span{
+  display: inline-block;
+  vertical-align: middle;
+  margin: -2px 10px 0 0;
+  height: 26px;
+  width: 26px;
+  background-image: url(../assets/ico-download.svg);
+  background-repeat: no-repeat;}
+
+  @media only screen and (max-width: 600px) {
+    .enhance__item.buttons a{
+      padding: 0px;
+      line-height: 20px;
+      font-size: 16px;}
+  }
+
+.enhance__item.type{
+  display: inline-block;
+  width: 653px;
+  height: 85px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(../assets/bg-input.svg);}
+
+  @media only screen and (max-width: 992px) {
+    .enhance__item.type{
+      background-size: 95%;
+      width: 100%;
+    }
+  }

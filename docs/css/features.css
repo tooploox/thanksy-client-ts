@@ -1,0 +1,60 @@
+.features{
+  background: #ffffff;
+  padding: 0;}
+
+.features__container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0 auto 72px;}
+
+  @media only screen and (max-width: 600px) {
+    .features__container{
+      padding: 0 10px;}
+  }
+
+.features__item{
+  margin: 24px;
+  text-align: center;
+  width: 240px;}
+
+  @media only screen and (max-width: 600px) {
+    .features__item{
+      margin: 0 0 24px 0;
+      width: 50%;}
+  }
+
+.features__item h4{
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;}
+
+  @media only screen and (max-width: 600px) {
+    .features__item h4{
+      width: 75%;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 400;}
+  }
+
+.features__item .img{
+  display: inline-block;
+  height: 128px;
+  width: 96px;
+  background-repeat: no-repeat;
+  background-position: center;}
+
+.features__item .img.confetti{
+  background-image: url(../assets/ico-confetti.svg);}
+
+.features__item .img.send{
+  background-image: url(../assets/ico-send.svg);}
+
+.features__item .img.interaction{
+  background-image: url(../assets/ico-interaction.svg);}
+
+.features__item .img.values{
+  background-image: url(../assets/ico-values.svg);}
