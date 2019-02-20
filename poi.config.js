@@ -27,8 +27,11 @@ module.exports = (function getConfig() {
         env: { ...tsEnv, ...orgEnv },
         plugins: [new OfflinePlugin()],
         html: {
-            title: "Thanksy",
-            description: "thanksy build:" + tsEnv.BUILD_SHA + ", " + tsEnv.BUILD_DATE
+            description:
+                "Open-source app that allows people to send appreciation via slack and broadcast it on the TV." +
+                tsEnv.BUILD_SHA +
+                ", " +
+                tsEnv.BUILD_DATE
         }
     }
 })()

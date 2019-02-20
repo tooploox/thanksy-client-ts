@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npx poi --require ts-node/register --config poi.config.js",
-    "build": "npx poi build --require ts-node/register --config poi.config.js && cp src/assets/cheer.mp3 dist/assets/",
+    "build": "./build.sh",
     "fake-api": "npx json-server --watch ./cypress/support/db.json --middlewares ./cypress/support/auth.js --routes ./cypress/support/routes.json",
     "timestamp": "./timestamp.sh",
     "test:e2e": "npx cypress run --reporter json",
