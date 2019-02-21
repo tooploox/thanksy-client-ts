@@ -1,6 +1,8 @@
 # Thanksy
 
-[Thanksy client](https://github.com/tooploox/thanksy-client-ts) is written using `Typescript` (version 3.3.3) and `React` (16.8).
+For more details (and the bigger picture) you can visit our [landing page](https://tooploox.github.io/thanksy/) and check out our [backend repository](https://github.com/tooploox/thanksy-server).
+
+Nevertheless, this is [thanksy client](https://tooploox.github.io/thanksy/). This project is written using `Typescript` (version 3.3.3) and `React` (16.8).
 Both technologies fit perfectly. React gives simplicity and allows to write purely functional code while
 Typescript supports it with static type checking and type inference.
 We also use `Redux` and `Redux-loop` to manage application state and side effects respectively.
@@ -12,6 +14,7 @@ Moreover, `Cypress` was used for high-level acceptance testing (e2e).
 
 Since [Redux](https://redux.js.org/introduction/prior-art#elm) and [Redux loop](https://redux-loop.js.org/) have been highly-inspired by The Elm Architecture we also decide to rewrite thanksy
 [client in Elm](https://github.com/tooploox/thanksy-client-elm). The experiment was successful and now we have both clients with the same functionalities.
+
 
 ## Setup
 
