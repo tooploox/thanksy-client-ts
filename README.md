@@ -27,7 +27,19 @@ npm install
 
 ## Running
 
-to run application with hot reloading
+to run application, first copy `.env-example` to `.env`:
+
+```sh
+cp .env-example .env
+```
+
+then run fake api server:
+
+```sh
+npm run fake-api
+```
+
+and finally run it:
 
 ```sh
 npm start
