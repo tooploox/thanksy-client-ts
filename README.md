@@ -66,3 +66,7 @@ to run all tests
 ```sh
 npm test
 ```
+
+## License
+
+MIT License
