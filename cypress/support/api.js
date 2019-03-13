@@ -5,7 +5,7 @@ export const TOKEN = "123456"
 export const route = ({ expectedBearer, response }) =>
     cy.route({
         method: "GET",
-        url: "https://thanksy.herokuapp.com/thanks/list",
+        url: "http://localhost:3000/thanks/list",
         onRequest: xhr => expectedBearer && expect(xhr.requestHeaders.Authorization).equal(`Bearer ${expectedBearer}`),
         status: expectedBearer ? 200 : 401,
         response
